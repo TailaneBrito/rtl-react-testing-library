@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    ISBN_LIST
+{% endblock %}
+
+{% block body %}
+    <h1>All {{ size }} books by ISBNS</h1>
+    
+    <table class="table table-striped table-responsive table-bordered-no">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for isbn in isbn_list %}
+                        <tr>
+                            <td> {{ isbn.isbn }}</td>
+                            <td> {{ isbn.title }} </td> 
+                            <td> {{ isbn.author}} </td>
+                            <td> {{ isbn.year}} </td>        
+                        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}
+
+            {% endblock %}
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <link rel="stylesheet" href="../static/freelancer.css">
+        <link rel="stylesheet" href="../css/input.css">
+    </head>
+    <body>
+
+    <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="#page-top">Book API</a>
+          <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a>
+              </li>
+              <li class="nav-item mx-0 mx-lg-1">
+                <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+        <!-- Masthead -->
+      <header class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+
+          <!-- Masthead Avatar Image -->
+          <img class="masthead-avatar mb-5" src="img/avatars.svg" alt="">
+
+          <!-- Masthead Heading -->
+          <h1 class="masthead-heading text-uppercase mb-0">Search among 5K books!</h1>
+
+          <!-- Icon Divider -->
+          <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="divider-custom-line"></div>
+          </div>
+
+          <!-- Masthead Subheading -->
+          <p class="show-color">
+              <a id="over-link" href="{{ url_for('search_isbn') }}">ISBN</a> -
+              <a href="{{ url_for('search_author') }}">Author</a> -
+              <a href="{{ url_for('search_year') }}">Year</a> -
+              <a href="{{ url_for('search_title') }}">Title</a>
+          </p>
+
+        </div>
+      </header>
+
+        <div class="container">
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul id="messages" class="list_unstyled">
+                    {% for message in messages %}
+                        <li class="alert alert-success">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <div class="page-header">
+                <h1>{{ titulo }}</h1>
+            </div>
+
+
+            {% block body %}
+
+            {% endblock %}
+
+            {% block conteudo %}
+
+            {% endblock %}
+
+        </div>
+    </body>
+</html>

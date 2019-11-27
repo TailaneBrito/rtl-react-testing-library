@@ -1,0 +1,28 @@
+$baby: #F9EBEA;
+
+p{
+    @extend .show-color;
+    a{
+
+            color: $baby;
+        }
+}
+
+
+
+.show-color{
+
+    a{
+        color: #17202A;
+    background-color: pink;
+    }
+
+}
+
+
+#over-link{
+            text-style: bold;
+            color: $baby;
+}
+
+

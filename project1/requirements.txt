@@ -1,0 +1,6 @@
+Flask
+Flask-Session
+psycopg2
+SQLAlchemy
+passlib
+--trusted-host=pypi.org --trusted-host=files.pythonhosted.org

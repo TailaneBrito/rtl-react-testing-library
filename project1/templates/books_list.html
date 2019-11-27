@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<h1> SEARCH BOOKs BY: </h1>
+
+	<a href="{{ url_for('search_isbn') }}">ISBN</a>
+	<a href="{{ url_for('search_author') }}">AUTHOR</a>
+	<a href="{{ url_for('search_title') }}">Title</a>
+	<a href="{{ url_for('search_year') }}">Year</a>
+
+
+{% endblock %}

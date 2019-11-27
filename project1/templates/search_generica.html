@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	
+	<h1> Search  a book by it's {{ db_field }}</h1>
+
+	<form action="{{ url_for('srch_generica') }}" method="post">	  
+		
+		<input type="text" placeholder="Search by Author..." name="book_author">
+		
+		<button type="submit"><i class="fa fa-search"></i></button>
+	</form>
+
+{% endblock %}

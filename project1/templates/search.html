@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	
+	<h1> Search  a book by it's ISBN </h1>
+
+	<form action="{{ url_for('srch_isbn') }}" method="post">	  
+		
+		<div class="form-group">
+			  <input class="form-control" id="name_isbn" name="book_isbn" type="text" placeholder="ISBN" required="required"
+					 data-validation-required-message="Please enter ISBN.">
+              <button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">
+				  <i class="fa fa-search"></i>
+				  Send</button>
+		</div>
+	</form>
+
+{% endblock %}

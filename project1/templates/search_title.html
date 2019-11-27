@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	
+	<h1> Search  a book by it's title</h1>
+
+	<form action="{{ url_for('srch_title') }}" method="post">	  
+
+		<div class="form-group">
+
+			<input class="form-control" name="book_title" type="text" placeholder="Search by title..." required="required"
+					 data-validation-required-message="Please enter Author">
+
+			<button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">
+				  <i class="fa fa-search"></i>
+				  Send</button>
+		</div>
+
+	</form>
+
+{% endblock %}

@@ -22,4 +22,4 @@ It has all the requirements asked for it.
                     file contactme.html     <-- example of form.0
                     file hobbies.html       <-- where some of the images in the project are embedded.
                     file index.html         <-- Learn more about the developer
-                    file projects.html      <-- where we have an example of table (step 2). 
+                    file projects.html      <-- where we have an example of table (step 2).
