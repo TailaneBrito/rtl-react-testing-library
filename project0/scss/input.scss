@@ -1,0 +1,85 @@
+$font-stack:    Helvetica, sans-serif;
+$midori: #58D68D;
+$aoi: #5DADE2;
+$pink: #F5B7B1;
+$black: #17202A;
+$baby: #F9EBEA;
+
+div {
+   p {
+
+    strong{
+        font: $font-stack;
+        color: $midori;
+    }
+
+   }
+}
+
+.tai {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    background-color: $aoi;
+
+    &:hover{
+        background-color: $pink;
+        border-style: dotted solid;
+    }
+}
+
+.tai--bear {
+     @extend .tai;
+     background-color: $pink;
+     border-color: $black;
+     border-style: solid;
+     border-width: 5px;
+}
+
+li{
+    margin-left: -20px;
+    list-style-type: none;
+    border-radius: 10px;
+    text-align: center;
+
+    &:hover{
+    background-color: $baby;
+    color: $black;
+    }
+}
+
+.text-box{
+    @extend li;
+    padding: 30px;
+    color: $baby;
+    background-color: black;
+}
+
+.speech-bubble {
+	position: relative;
+/*background: #00aabb;*/
+    color: #fff;
+	background: #2c3e50;
+    padding-top: 25%;
+    padding-lef: 5%;
+    padding-right: 5%;
+    padding-bottom: 25%;
+	border-radius: .4em;
+}
+
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	/*border-right-color: #00aabb;*/
+	border-right-color: #2c3e50;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+}
