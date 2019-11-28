@@ -216,7 +216,7 @@ def srch_year():
 
 
 ''' BOOK PAGE '''
-@app.route("/book_page/<int(fixed_digits=10):book_isbn>")
+@app.route("/book_page/<book_isbn>")
 def book_page(book_isbn):
 
     if 'user_id' not in session or session['user_id'] == None:
@@ -233,6 +233,8 @@ def book_page(book_isbn):
         #b = db.execute("SELECT cast(isbn as text) from books where cast(isnb as text) = :book_isbn", {"book_isbn": {str(new_isbn)}}).fetchone()
 
         Bb = db.execute("SELECT * FROM books WHERE isbn = :book_isbn", {"book_isbn": new_isbn}).fetchone()
+
+    Bb = db.execute("SELECT * FROM books WHERE isbn = :book_isbn", {"book_isbn": book_isbn}).fetchone()
 
     # Make sure book exists.
     if Bb is None:
