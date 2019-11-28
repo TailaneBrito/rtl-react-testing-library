@@ -3,4 +3,5 @@ Flask-Session
 psycopg2
 SQLAlchemy
 passlib
+pandas
 --trusted-host=pypi.org --trusted-host=files.pythonhosted.org

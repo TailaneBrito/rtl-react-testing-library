@@ -1,5 +1,5 @@
 import os
-
+import pandas as pd
 from flask import Flask, session, render_template, request, redirect, flash
 from flask_session import Session
 from sqlalchemy import create_engine
@@ -145,7 +145,7 @@ def srch_isbn():
 def isnb(book_isbn):
     """Lists details about a single flight."""
 
-    book = db.execute("SELECT * FROM books WHERE isbn = :isbn", {"isbn": book_isbn}).fetchone()
+    book = db.execute("SELECT * FROM books WHERE isbn = :isbn::varchar(10)", {"isbn": book_isbn}).fetchone()
     if book is None:
         return render_template("error.html", message="ISBN list failed. Please check it out.")
 
@@ -183,15 +183,14 @@ def srch_title():
 
     book_title = request.form.get("book_title")
 
-    title_list = db.execute("SELECT * FROM books WHERE title LIKE :search", 
+    title_list = db.execute("SELECT * FROM books WHERE title LIKE :search",
         {"search": f"%{book_title}%"}).fetchall()
 
-    size = len(title_list)
 
     if title_list is None:
-        return render_template("error.html", message="title list failed. Please check it out.")
-    #   '%%:isbn%%' ",{"isbn": str(book_isbn)}).fetchall() 
-    return render_template("title_list.html", title_list=title_list, size=size, name=book_title, title=book_title)
+        return render_template("error.html", message="srch_title() title list failed. Please check it out.")
+
+    return render_template("list_title.html", title_list=title_list, title=book_title)
 
 ''' SEARcH Year '''
 @app.route("/search_year/")
@@ -217,25 +216,35 @@ def srch_year():
 
 
 ''' BOOK PAGE '''
-@app.route("/book_page/")
+@app.route("/book_page/<int(fixed_digits=10):book_isbn>")
 def book_page(book_isbn):
-    reviews = db.execute("SELECT * FROM reviews WHERE book_isbn = :book_isbn", {"book_isbn": book_isbn}).fetchall()
-    return render_template("book_page.html", book_isbn=book_isbn, reviews=reviews)
 
+    if 'user_id' not in session or session['user_id'] == None:
+        flash('not logged in, try again!')
+        return redirect('/autenticar')
 
-@app.route("/flights/<int:flight_id>")
-def flight(flight_id):
-    """Lists details about a single flight."""
+    if len(str(book_isbn)) < 10:
+        new_isbn = str(book_isbn).rjust(10, '0')
 
-    # Make sure flight exists.
-    flight = db.execute("SELECT * FROM flights WHERE id = :id", {"id": flight_id}).fetchone()
-    if flight is None:
-        return render_template("error.html", message="No such flight.")
+        #Bb = db.execute("SELECT * FROM books WHERE isbn = :book_isbn", {"book_isbn": {str(new_isbn)}}).fetchone()
+        #bd2 = db.execute("SELECT * FROM books WHERE (SELECT cast(isbn as text)) = :book_isbn ", {"book_isbn": new_isbn}).fetchone()
+
+        #db.execute("ALTER TABLE books ALTER COLUMN isbn TYPE INTEGER USING isbn::integer")
+        #b = db.execute("SELECT cast(isbn as text) from books where cast(isnb as text) = :book_isbn", {"book_isbn": {str(new_isbn)}}).fetchone()
+
+        Bb = db.execute("SELECT * FROM books WHERE isbn = :book_isbn", {"book_isbn": new_isbn}).fetchone()
+
+    # Make sure book exists.
+    if Bb is None:
+        return render_template("error.html", message=Bb)
 
     # Get all passengers.
-    passengers = db.execute("SELECT name FROM passengers WHERE flight_id = :flight_id",
-                            {"flight_id": flight_id}).fetchall()
-    return render_template("flight.html", flight=flight, passengers=passengers)
+
+    #reviews = db.execute("SELECT title FROM reviews WHERE book_isbn = :book_isbn",
+    #                       {"book_isbn": book_isbn}).fetchall()
+    reviews = []
+    return render_template("book_page.html", book=Bb, reviews=reviews)
+
 
 JSON_SORT_KEYS = False
 

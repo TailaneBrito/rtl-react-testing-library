@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    BY title List
+{% endblock %}
+
+{% block body %}
+    <h1>Books by {{ title }} </h1>
+    
+    <table class="table table-striped table-responsive table-bordered-no">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for i in title_list %}
+
+            <tr>
+                    <td>
+                        <a href="{{ url_for('book_page', book_isbn=i.isbn) }}">
+                          {{  i.isbn }}
+
+                        </a>
+                    </td>
+                    <td> {{ i.title }} </td>
+                    <td> {{ i.author}} </td>
+                    <td> {{ i.year}} </td>
+
+
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+{% endblock %}

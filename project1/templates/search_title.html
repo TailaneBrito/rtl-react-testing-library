@@ -2,14 +2,14 @@
 
 {% block body %}
 	
-	<h1> Search  a book by it's title</h1>
+	<h1> Search  a book by it's Title</h1>
 
 	<form action="{{ url_for('srch_title') }}" method="post">	  
 
 		<div class="form-group">
 
-			<input class="form-control" name="book_title" type="text" placeholder="Search by title..." required="required"
-					 data-validation-required-message="Please enter Author">
+			<input class="form-control" name="book_title" type="text" placeholder="Search by Titles..." required="required"
+					 data-validation-required-message="Please enter Title">
 
 			<button type="submit" class="btn btn-primary btn-xl" id="sendMessageButton">
 				  <i class="fa fa-search"></i>
