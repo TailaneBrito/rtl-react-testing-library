@@ -139,7 +139,7 @@ def srch_isbn():
     if isbn_list is None:
         return render_template("error.html", message="nao carregou a lista")
     #   '%%:isbn%%' ",{"isbn": str(book_isbn)}).fetchall() 
-    return render_template("isbn_list.html", isbn_list=isbn_list, size=size)
+    return render_template("list_isbn.html", isbn_list=isbn_list, size=size)
 
 @app.route("/isbn_list/<int:book_isbn>")
 def isnb(book_isbn):
@@ -211,7 +211,7 @@ def srch_year():
     if year_list is None:
         return render_template("error.html", message="Year list failed. Please check it out.")
     #   '%%:isbn%%' ",{"isbn": str(book_isbn)}).fetchall() 
-    return render_template("year_list.html", year_list=year_list, size=size, year=book_year )
+    return render_template("list_year.html", year_list=year_list, size=size, year=book_year)
 
 
 
