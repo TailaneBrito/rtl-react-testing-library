@@ -13,6 +13,8 @@ CREATE TABLE reviews (
 )
 
 
+SELECT * FROM reviews WHERE user_name = 'luan@gmail.com';
+
 
 #Examples to study later
 # Bb = db.execute("SELECT * FROM books WHERE isbn = :book_isbn", {"book_isbn": {str(new_isbn)}}).fetchone()

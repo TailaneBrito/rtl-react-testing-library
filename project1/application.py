@@ -39,7 +39,6 @@ def index():
 	login = db.execute("SELECT * FROM login2").fetchall()
 	return render_template("index.html", login=login)
 
-
 @app.route("/registration", methods=["POST"])
 def singup():
     """Registration Request."""
@@ -68,13 +67,17 @@ def singup():
         flash('#6 ERROR Please contact the server database')
         return render_template("error.html", message="#6 ERROR Please contact the server dba")
 
+@app.route("/newuser")
+def newuser():
+    return render_template("singup.html")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login")
 def login():
-    """Login Request."""  
+    """Login Request."""
+
+    login = db.execute("SELECT * FROM login2").fetchall()
+    return render_template("login.html", login=login)
     autenticar()
-
-
 
 @app.route('/autenticar', methods=['POST',])
 def autenticar():
@@ -121,6 +124,18 @@ def logout():
     session['user_name'] = None
     flash('user disconnected successfully. see you later!!!')
     return redirect('/')
+
+@app.route('/list_reviews')
+def list_reviews():
+
+    if 'user_id' not in session or session['user_id'] == None:
+        flash('You need to be logged to see this page!')
+        return redirect('/autenticar')
+    else:
+        flash(session['user_name'])
+        r_list = review_list(session['user_name'])
+        size = len(r_list)
+        return render_template("list_reviews.html", size=size, user=session['user_name'], review_list=r_list)
 
 @app.route("/books")
 def books():
@@ -242,10 +257,20 @@ def book_page(book_isbn):
 
     # Get all passengers.
 
-    #reviews = db.execute("SELECT title FROM reviews WHERE book_isbn = :book_isbn",
-    #                       {"book_isbn": book_isbn}).fetchall()
-    reviews = []
+    reviews = db.execute("SELECT title FROM reviews WHERE book_isbn = :book_isbn",
+                           {"book_isbn": book_isbn}).fetchall()
+
     return render_template("book_page.html", book=Bb, reviews=reviews)
+
+def review_list(user_name):
+    user_name = user_name
+
+    #SELECT * FROM reviews WHERE user_name = 'luan@gmail.com';
+    reviews = db.execute("SELECT * FROM reviews WHERE user_name = :user_name",
+                         {"user_name": user_name}).fetchall()
+
+    return reviews
+
 
 @app.route('/new_review/<book_isbn>/<book_name>')
 def new_review(book_isbn, book_name):
@@ -263,7 +288,6 @@ def new_review(book_isbn, book_name):
 @app.route('/create/<book_isbn>', methods=['POST',])
 def create(book_isbn):
 
-
     if 'user_id' not in session or session['user_id'] == None:
         return render_template("error.html", message="Create #4 Invalid user name or password, please type one.")
     try:
@@ -278,25 +302,11 @@ def create(book_isbn):
         review_dao.save(review)
 
         flash('Success! You sent a new review')
-        return redirect(url_for('index'))
+        return redirect(url_for('books'))
 
     except ValueError:
         flash('#6 ERROR Please contact the server database')
         return render_template("error.html", message="#6 ERROR Please contact the server dba")
-
-
-
-
-@app.route('/editar/<int:id>')
-def editar(id):
-    if 'usuario_logado' not in session or session['usuario_logado'] == None:
-        return redirect(url_for('login', proxima=url_for('editar')))
-    jogo = jogo_dao.busca_por_id(id)
-    nome_imagem = recupera_imagem(id)
-    return render_template('editar.html', titulo='Editando Jogo', jogo=jogo
-                           , capa_jogo=nome_imagem or 'capa_padrao.jpg')
-
-
 
 
 JSON_SORT_KEYS = False
