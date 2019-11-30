@@ -14,13 +14,14 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Year</th>
+                <th>Tools</th>
             </tr>
         </thead>
 
         <tbody>
         {% for isbn in isbn_list %}
-                        <a>
-                            <td>
+                       <tr>
+                           <td>
                                 <a href="{{ url_for('book_page', book_isbn=isbn.isbn) }}">
                                 {{ isbn.isbn }}
                                 </a>
@@ -28,6 +29,14 @@
                             <td> {{ isbn.title }} </td> 
                             <td> {{ isbn.author}} </td>
                             <td> {{ isbn.year}} </td>        
+                            <td>
+                                <!-- para criar um novo review
+
+                                <a href="{{ url_for('create', book_isbn=isbn.isbn) }}"> Send a Review</a> -->
+                                <a class="btn btn-primary" href="{{ url_for('new_review', book_isbn=isbn.isbn, book_name=isbn.title) }}">Send Review</a>
+
+                            </td>
+
                         </tr>
         {% endfor %}
         </tbody>

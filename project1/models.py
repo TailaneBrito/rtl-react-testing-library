@@ -6,8 +6,10 @@ class Book:
         self.year = year
 
 class Review:
-    def __init__(self, title, content, user_name, book_isbn, id=None):
+    def __init__(self, title, comment, rate, user_name, book_isbn, id=None):
         self.id = id
-        self.content = content
+        self.title = title
+        self.comment = comment
+        self.rate = rate
         self.user_name = user_name
         self.book_isbn = book_isbn

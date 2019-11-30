@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    ISBN_LIST
+{% endblock %}
+
+{% block body %}
+    <h1>Reviews by you {{ user }}</h1>
+
+    <table class="table table-striped table-responsive table-bordered-no">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Reviews</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for review in review_list %}
+                        <tr>
+                            <td>{{ review.title }}</td>
+                            <td> {{ review.comment }} </td>
+                            <td> {{ review.rate}} </td>
+                        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
