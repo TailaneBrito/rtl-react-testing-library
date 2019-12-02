@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 
 from flask import Flask, session, render_template, request, redirect, flash, url_for
 from flask_session import Session
@@ -9,11 +8,8 @@ from sqlalchemy.sql.expression import cast
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, session, flash
 
-from models import Book, Review
+from models import *
 from dao import ReviewDao, BookDao
-
-#encrypt
-from passlib.hash import sha256_crypt
 
 app = Flask(__name__)
 
@@ -36,8 +32,9 @@ book_dao = BookDao(db)
   
 @app.route("/")
 def index():
-	login = db.execute("SELECT * FROM login2").fetchall()
-	return render_template("index.html", login=login)
+	#login = db.execute("SELECT * FROM login2").fetchall()
+    #login = Login.query.all()
+    return render_template("index.html", login=login)
 
 @app.route("/registration", methods=["POST"])
 def singup():
@@ -51,8 +48,11 @@ def singup():
         return render_template("error.html", message="SingUP #4 Invalid user name or password, please type one.")
     
     try:
+        #old version of the select
         if db.execute("SELECT * FROM login2 WHERE usr_name = :user_name",
-                      {"user_name": user_name}).rowcount == 1:
+                    {"user_name": user_name}).rowcount == 1:
+        #login = Login.query.get(user_name)
+        #if login == 1:
             flash('#5 This user is already in user, please select another.')
             return render_template("error.html", message="#5 This user is already in user, please select another.")		
 
@@ -166,7 +166,7 @@ def srch_isbn():
 
 @app.route("/isbn_list/<int:book_isbn>")
 def isnb(book_isbn):
-    """Lists details about a single flight."""
+    """Return search_isbn with a list of isbn after search."""
 
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn::varchar(10)", {"isbn": book_isbn}).fetchone()
     if book is None:
@@ -193,7 +193,7 @@ def srch_author():
     if author_list is None:
         return render_template("error.html", message="nao carregou a lista")
     #   '%%:isbn%%' ",{"isbn": str(book_isbn)}).fetchall() 
-    return render_template("author_list.html", author_list=author_list, size=size, author=book_author )
+    return render_template("list_author.html", author_list=author_list, size=size, author=book_author )
 
 ''' SEARcH Title '''
 @app.route("/search_title/")
@@ -255,9 +255,7 @@ def book_page(book_isbn):
     if Bb is None:
         return render_template("error.html", message=Bb)
 
-    # Get all passengers.
-
-    reviews = db.execute("SELECT title FROM reviews WHERE book_isbn = :book_isbn",
+    reviews = db.execute("SELECT * FROM reviews WHERE book_isbn = :book_isbn",
                            {"book_isbn": book_isbn}).fetchall()
 
     return render_template("book_page.html", book=Bb, reviews=reviews)
@@ -265,7 +263,6 @@ def book_page(book_isbn):
 def review_list(user_name):
     user_name = user_name
 
-    #SELECT * FROM reviews WHERE user_name = 'luan@gmail.com';
     reviews = db.execute("SELECT * FROM reviews WHERE user_name = :user_name",
                          {"user_name": user_name}).fetchall()
 
@@ -277,6 +274,8 @@ def new_review(book_isbn, book_name):
 
     book_isbn = book_isbn
     book_name = book_name
+
+    review_dao.check_book_review_existence(book_isbn, book_isbn)
 
     if 'user_id' not in session or session['user_id'] == None:
         flash('not logged in, try again!')
@@ -298,11 +297,22 @@ def create(book_isbn):
         rate = request.form['rate']
         book_isbn = book_isbn
 
-        review = Review(title, comment, rate, user_id, book_isbn)
-        review_dao.save(review)
+        check_review_existence = review_dao.check_book_review_existence(book_isbn,user_id)
+        check_lenght = (len(check_review_existence))
+        print(check_lenght)
 
-        flash('Success! You sent a new review')
-        return redirect(url_for('books'))
+        if check_lenght >= 1:
+            print('entrou aqui >= 1')
+            print('entrou aqui error.html')
+            return render_template("error.html", message="Book already have a review by you")
+
+        else:
+            print('entrou aqui = 0')
+            review = Review(title, comment, rate, user_id, book_isbn)
+            review_dao.save(review)
+
+            flash('Success! You sent a new review')
+            return redirect(url_for('books'))
 
     except ValueError:
         flash('#6 ERROR Please contact the server database')

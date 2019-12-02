@@ -17,9 +17,9 @@
     <h2>Reviews</h2>
     <ul>
         {% for review in reviews %}
-            <li>{{ review.text }}</li>
+            <li>" {{ review.comment }} " </li>
         {% else %}
-            <li>No passengers.</li>
+            <li>No Reviews for this book.</li>
         {% endfor %}
     </ul>
 

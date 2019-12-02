@@ -12,6 +12,41 @@ CREATE TABLE reviews (
     PRIMARY KEY (id)
 )
 
+#EXAMPLES OF QUERIES
+
+Flight.query.filter_by(id=28).first()
+
+
+flight = Flight.query.get(28)
+db.session.delete(flight)
+db.session.commit() #deleting, updating.
+
+#order by
+Flight.query.order_by(Flight.origin).all()
+#order by descending
+Flight.query.order_by(Flight.origin.desc()).all()
+
+#Select all fights different from Paris
+Flight.query.filter(Flight.origin != "Paris").all()
+
+#Select like
+Flight.query.filter(Flight.origin.like("%a%")).all()
+
+Flight.query.filter(Flight.origin.in_(["Tokyo", "Paris"])).all()
+
+#AND  OR
+Flight.query.filter(and_(Flight.origin == "Paris",
+                         Flight.duration > 500)).all()
+
+Flight.query.filter(or_(Flight.origin == "Paris",
+                         Flight.duration > 500)).all()
+
+#JOING MULTIPLE TABLES TOGETHER
+db.session.query(Flight, Passenger).filter(
+    Flight.id == Passenger.flight_id).all()
+
+
+
 
 SELECT * FROM reviews WHERE user_name = 'luan@gmail.com';
 

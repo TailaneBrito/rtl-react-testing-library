@@ -12,7 +12,14 @@ def main():
     reader = csv.reader(f)
     line_count = 0
 
-    """ printing 
+    for isbn, title, author, year in reader:	
+        db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
+                    {"isbn": isbn, "title": title, "author": author, "year": year})
+        print(f"Added book {title} of {year}.")
+    db.commit()
+
+    def printing():
+        """ printing
     for row in reader:
         if line_count == 0:
             print(f'Column ibsn are {", ".join(row)}')
@@ -21,14 +28,6 @@ def main():
             print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
             line_count += 1
     print(f'Processed {line_count} lines.')
-
-    """
-
-    for isbn, title, author, year in reader:	
-        db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",
-                    {"isbn": isbn, "title": title, "author": author, "year": year})
-        print(f"Added book {title} of {year}.")
-    db.commit()
-
+         """
 if __name__ == '__main__':
 	main()

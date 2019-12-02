@@ -14,6 +14,7 @@
                 <th>Title</th>
                 <th>Author</th>
                 <th>Year</th>
+                <th>Tools</th>
             </tr>
         </thead>
 
@@ -27,7 +28,11 @@
                             </td>
                             <td> {{ i.title }} </td> 
                             <td> {{ i.author}} </td>
-                            <td> {{ i.year}} </td>        
+                            <td> {{ i.year}} </td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ url_for('new_review',
+                                book_isbn=i.isbn, book_name=i.isbn) }}">Send Review</a>
+                            </td>
                         </tr>
         {% endfor %}
         </tbody>

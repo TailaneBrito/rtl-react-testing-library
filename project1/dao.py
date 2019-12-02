@@ -10,6 +10,7 @@ SQL_CREATE_REVIEW = "INSERT into reviews (title, comment, rate, user_name, book_
 SQL_UPDATE_REVIEW = 'UPDATE reviews SET title = :title , comment = :comment , rate= :rate, book_isbn = :book_isbn ' \
                     'WHERE id = :id'
 SQL_LAST_ID = "SELECT currval('reviews_id_seq')"
+SQL_CHECK_BOOK_EXIST = "SELECT book_isbn FROM reviews WHERE user_name = :user_name AND book_isbn = :book_isbn"
 
 
 # Check for environment variable
@@ -42,25 +43,39 @@ class ReviewDao:
                 return render_template("error.html", message="Dao1 ERROR Please contact the server dba")
         else:
             try:
-                db.execute(SQL_CREATE_REVIEW, {"title": review.title,
+
+                    db.execute(SQL_CREATE_REVIEW, {"title": review.title,
                                                "comment": review.comment,
                                                "rate": review.rate,
                                                "user_name": review.user_name,
                                                "book_isbn": review.book_isbn
                                                })
 
-                review.id = db.flush()
+                    review.id = db.flush()
 
-                db.commit()
-                return review
+                    db.commit()
+                    return review
 
             except ValueError:
                 flash('Dao2 ERROR Please contact the server database')
                 return render_template("error.html", message="Dao2 ERROR Please contact the server dba")
 
+    def check_book_review_existence(self, book_isbn, user_name):
+
+        book_isbn = book_isbn
+        user_name = user_name
+
+        check_book_isbn_exist = db.execute((SQL_CHECK_BOOK_EXIST),
+                                           {"book_isbn": book_isbn, "user_name": user_name}).fetchall()
+
+        return check_book_isbn_exist
+
+
 class BookDao:
     def __init__(self, db):
         self.__db = db
+
+
 
 
 
