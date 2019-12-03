@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Error
+    Pagina autenticada
 {% endblock %}
 
-{% block body %}
-    <h1>Error</h1>
+{% block conteudo %}
+    <h1>Dashboard for {{ user_name}}</h1>
 
     {{ message }}
 {% endblock %}
