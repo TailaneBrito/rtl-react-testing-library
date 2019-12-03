@@ -18,7 +18,7 @@ SQL_SELECT_BOOKS_ISBN = f"SELECT * FROM { db2 } WHERE isbn LIKE :search"
 SQL_SELECT_ISBN_BOOK = f"SELECT * FROM { db2 } WHERE isbn = :isbn::varchar(10)"
 SQL_SELECT_BOOKS_AUTHOR = f"SELECT * FROM { db2 } WHERE author LIKE :search"
 SQL_SELECT_BOOK_TITLE = f"SELECT * FROM { db2 } WHERE title LIKE :search"
-SQL_SELECT_BOOK_TITLE = f"SELECT * FROM { db2 } WHERE year LIKE :search"
+SQL_SELECT_BOOK_YEAR = f"SELECT * FROM { db2 } WHERE year LIKE :search"
 SQL_ALL_BOOKS_ISBN = f"SELECT * FROM { db2 } WHERE isbn = :book_isbn"
 SQL_SELECT_ALL_BOOKS = f"SELECT * FROM { db2 }"
 
@@ -151,7 +151,7 @@ class BookDao:
     def select_book_year(self, book_year):
         try:
 
-            year = db.execute(SQL_SELECT_BOOK_TITLE,
+            year = db.execute(SQL_SELECT_BOOK_YEAR,
                               {"search": f"%{book_year}%"}).fetchall()
 
             return year
