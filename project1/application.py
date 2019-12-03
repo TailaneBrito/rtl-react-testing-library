@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template, request, redirect, flash, url_for
 from flask_session import Session
@@ -235,7 +236,9 @@ def book_page(book_isbn):
 
     reviews = review_dao.selec_all_reviews_isbn(book_isbn)
 
-    return render_template("book_page.html", book=Bb, reviews=reviews)
+    rate = search_rate_google_reads(book_isbn)
+
+    return render_template("book_page.html", book=Bb, reviews=reviews, google_rating=rate)
 
 @app.route('/new_review/<book_isbn>/<book_name>')
 def new_review(book_isbn, book_name):
@@ -323,6 +326,28 @@ def review_list(user_name):
                          {"user_name": user_name}).fetchall()
 
     return reviews
+
+def search_rate_google_reads(books_isbn):
+    key = "ILwXvguynynBDzXQmVmUQ"
+    isbn = books_isbn
+    url = "https://www.goodreads.com/book/review_counts.json"
+
+    res = requests.get(url,
+                       params={"key": key,
+                               "isbns": isbn},
+                       verify=False
+                       )
+
+    if res.status_code != 200:
+        raise Exception("ERROR: API request unsuccessful.")
+
+    data = res.json()
+    book_rating = data["books"][0]["average_rating"]
+    # rate = book_rating[0]["average_rating"]
+
+    return book_rating
+
+
 
 JSON_SORT_KEYS = False
 

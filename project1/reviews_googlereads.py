@@ -1,8 +1,9 @@
 import requests
 
 def main():
-    key = 'ILwXvguynynBDzXQmVmUQ'
-    isbn = '1632168146'
+    key = "ILwXvguynynBDzXQmVmUQ"
+    isbn = "1632168146"
+    url = "https://www.goodreads.com/book/"
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
                        params={"key": key,
                                "isbns": isbn},
@@ -11,8 +12,11 @@ def main():
     if res.status_code != 200:
         raise Exception("ERROR: API request unsuccessful.")
 
+
     data = res.json()
-    book_rating = data["books"][9]
+    book_rating = data["books"][0]["average_rating"]
+    #rate = book_rating[0]["average_rating"]
+    print(book_rating)
     print(f"1 {isbn} has the {book_rating} on Googlereads!")
 
 if __name__ == "__main__":
