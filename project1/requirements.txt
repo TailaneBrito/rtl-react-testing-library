@@ -4,4 +4,6 @@ psycopg2
 SQLAlchemy
 passlib
 flask_sqlalchemy
+
+brew install curl-7.67.0
 --trusted-host=pypi.org --trusted-host=files.pythonhosted.org
