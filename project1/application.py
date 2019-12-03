@@ -1,12 +1,13 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, request, redirect, flash, url_for
+from flask import Flask, session, render_template, request, redirect, flash, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from models import *
+from modelstable import *
 from dao import ReviewDao, BookDao, LoginDao
 
 app = Flask(__name__)
@@ -343,12 +344,35 @@ def search_rate_google_reads(books_isbn):
 
     data = res.json()
     book_rating = data["books"][0]["average_rating"]
-    # rate = book_rating[0]["average_rating"]
+    book_work_ratings_count = data["books"][0]["work_ratings_count"]
+    book_review_count = data["books"][0]["reviews_count"]
+    book_info = (book_rating, book_work_ratings_count, book_review_count)
 
-    return book_rating
+
+    return book_info
+
+@app.route("/api/book_page/<book_isbn>")
+def book_api(book_isbn):
+    ''' return details about a single book '''
+
+    book = book_dao.select_all_books_isbn(book_isbn)
+    if book is None:
+        return jsonify({"Error": "Invalid book_id"}), 422
 
 
+    review_count_google_api  = search_rate_google_reads(book_isbn)
 
+    return jsonify({
+        "title": book.title,
+        "author": book.author,
+        "year": book.year,
+        "isbn": book.isbn,
+        "review_count": review_count_google_api[2],
+        "average_score": review_count_google_api[0]
+    })
+
+
+    #title, author, year, ISBN number, review count, and average score.
 JSON_SORT_KEYS = False
 
 
