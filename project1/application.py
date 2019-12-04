@@ -4,7 +4,8 @@ import requests
 from flask import Flask, session, render_template, request, redirect, flash, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker, exc
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.exc import IntegrityError
 
 from models import *
 from modelstable import *
@@ -51,7 +52,7 @@ def singup():
 
         ex_login = login_dao.verify_exitence_usr(usr)
 
-        if ex_login is None:
+        if ex_login is True:
             return render_template("error.html",
                                    message="#5 This user is already in user, please select another.")
 
@@ -65,8 +66,8 @@ def singup():
         return redirect(url_for("logged",
                                 user_name=usr.usr_name))
         
-    except ValueError:
-        flash('#6 ERROR Please contact the server database')
+    except (ValueError, IntegrityError):
+        flash('#6 This user is already in user, please select another')
         return render_template("error.html",
                                message="#6 ERROR Please contact the server dba")
 
