@@ -4,7 +4,7 @@ import requests
 from flask import Flask, session, render_template, request, redirect, flash, url_for, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import scoped_session, sessionmaker, exc
 
 from models import *
 from modelstable import *
@@ -19,6 +19,7 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+#app.run(debug=True, use_reloader=False)
 Session(app)
 
 # Set up database
@@ -57,6 +58,10 @@ def singup():
         login_dao.create_new_user(usr)
 
         flash(f'Success! You have been registrated {usr.usr_name } successfully')
+
+        print('passou aqui')
+        user_section(usr.usr_id, user_name)
+
         return redirect(url_for("logged",
                                 user_name=usr.usr_name))
         
