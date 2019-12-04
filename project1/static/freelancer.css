@@ -277,6 +277,8 @@ button:not(:disabled),
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
 [type="submit"]:not(:disabled) {
+  background-color: #28a745;
+  color: #f8f9fa;
   cursor: pointer;
 }
 
