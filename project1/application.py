@@ -170,6 +170,24 @@ def isnb(book_isbn):
 
     return render_template("search_isbn.html", book=book)
 
+
+@app.route('/isbn_list/<book_isbn>/<book_name>')
+def new_review(book_isbn, book_name):
+
+    book_isbn = book_isbn
+    book_name = book_name
+
+    review_dao.check_book_review_existence(book_isbn, book_isbn)
+
+    if 'user_id' not in session or session['user_id'] == None:
+        flash('not logged in, try again!')
+        return redirect('/autenticar')
+
+    return render_template('send_review.html',
+                           book_isbn=book_isbn,
+                           book_name=book_name,
+                           review=None)
+
 ''' SEARcH AUTHOR '''
 @app.route("/search_author/")
 def search_author():
@@ -245,23 +263,6 @@ def book_page(book_isbn):
     rate = search_rate_google_reads(book_isbn)
 
     return render_template("book_page.html", book=Bb, reviews=reviews, google_rating=rate)
-
-@app.route('/new_review/<book_isbn>/<book_name>')
-def new_review(book_isbn, book_name):
-
-    book_isbn = book_isbn
-    book_name = book_name
-
-    review_dao.check_book_review_existence(book_isbn, book_isbn)
-
-    if 'user_id' not in session or session['user_id'] == None:
-        flash('not logged in, try again!')
-        return redirect('/autenticar')
-
-    return render_template('send_review.html',
-                           book_isbn=book_isbn,
-                           book_name=book_name,
-                           review=None)
 
 @app.route('/create/<book_isbn>', methods=['POST',])
 def create(book_isbn):

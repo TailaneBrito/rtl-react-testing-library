@@ -24,13 +24,15 @@
                 <td>{{ review.title }}</td>
                 <td> {{ review.comment }} </td>
                 <td> {{ review.rate}} </td>
-                <td> {{ review.book_isbn}} </td>
+
+                <td> <a href="{{ url_for('book_page', book_isbn=review.book_isbn) }}">{{ review.book_isbn}} </a>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-        <p> You should be looged to see this </p>
+
 
 
 {% endblock %}
