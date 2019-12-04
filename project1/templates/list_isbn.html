@@ -33,7 +33,11 @@
                                 <!-- para criar um novo review
 
                                 <a href="{{ url_for('create', book_isbn=isbn.isbn) }}"> Send a Review</a> -->
-                                <a class="btn btn-primary" href="{{ url_for('new_review', book_isbn=isbn.isbn, book_name=isbn.title) }}">Send Review</a>
+                                <a class="btn btn-primary"
+                                   href="{{ url_for('new_review',
+                                   book_isbn=isbn.isbn, book_name=isbn.title) }}">
+                                    Send Review
+                                </a>
 
                             </td>
 

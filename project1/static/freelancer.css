@@ -80,7 +80,7 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-top: 15;
+  margin-top: 0;
   margin-bottom: 0.5rem;
 }
 
@@ -161,6 +161,7 @@ sup {
 a {
   color: #ffc107;
   text-decoration: none;
+  background-color: transparent;
 }
 
 a:hover {
@@ -276,6 +277,8 @@ button:not(:disabled),
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
 [type="submit"]:not(:disabled) {
+  background-color: #28a745;
+  color: #f8f9fa;
   cursor: pointer;
 }
 
@@ -553,15 +556,10 @@ pre code {
 
 .container {
   width: 100%;
-  padding-top: 15px;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-}
-
-.container: hover{
-    background-color: #17202A;
 }
 
 @media (min-width: 576px) {
@@ -1668,7 +1666,6 @@ pre code {
 
 @media (max-width: 767.98px) {
   .table-responsive-md {
-    padding: 60px;
     display: block;
     width: 100%;
     overflow-x: auto;
@@ -9522,8 +9519,6 @@ a.text-dark:hover, a.text-dark:focus {
     min-width: 992px !important;
   }
   .container {
-    padding-top: 15px;
-    border: 0.125rem solid #000;
     min-width: 992px !important;
   }
   .navbar {
@@ -9662,7 +9657,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link:hover {
-  color: #F9E79F;
+  color: #1abc9c;
 }
 
 #mainNav .navbar-nav li.nav-item a.nav-link:active, #mainNav .navbar-nav li.nav-item a.nav-link:focus {
@@ -9693,11 +9688,11 @@ a.text-dark:hover, a.text-dark:focus {
   }
   #mainNav .navbar-nav > li.nav-item > a.nav-link.active {
     color: #fff;
-    background: #F9E79F;
+    background: #1abc9c;
   }
   #mainNav .navbar-nav > li.nav-item > a.nav-link.active:active, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:focus, #mainNav .navbar-nav > li.nav-item > a.nav-link.active:hover {
     color: #fff;
-    background: #F9E79F;
+    background: #1abc9c;
   }
   #mainNav.navbar-shrink {
     padding-top: 0.5rem;
@@ -9722,17 +9717,12 @@ a.text-dark:hover, a.text-dark:focus {
   font-size: 1.25rem;
 }
 
-.masthead .masthead-subheading a:active{
-  color: #17202A
-}
-
 .masthead .masthead-avatar {
   width: 15rem;
 }
 
 @media (min-width: 992px) {
   .masthead {
-    background-color: #196F3D;
     padding-top: calc(6rem + 104px);
     padding-bottom: 6rem;
   }
@@ -9740,18 +9730,12 @@ a.text-dark:hover, a.text-dark:focus {
     font-size: 4rem;
     line-height: 3.5rem;
   }
-  .masthead .masthead-subheading{
-    font-size: 1.5rem;
-  }
-
-  .masthead .masthead-subheading a {
-    color: #ffc107;
+  .masthead .masthead-subheading {
     font-size: 1.5rem;
   }
 }
 
 .portfolio {
-  margin-top: 15px;
   margin-bottom: -30px;
 }
 
@@ -9789,7 +9773,6 @@ a.text-dark:hover, a.text-dark:focus {
 
 @media (min-width: 992px) {
   .portfolio-modal .portfolio-modal-title {
-    background-color: #196F3D;
     font-size: 3rem;
     line-height: 2.5rem;
   }

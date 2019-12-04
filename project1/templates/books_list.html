@@ -1,12 +1,16 @@
 {% extends "layout.html" %}
 
 {% block body %}
-	<h1> SEARCH BOOKs BY: </h1>
-
-	<a href="{{ url_for('search_isbn') }}">ISBN</a>
-	<a href="{{ url_for('search_author') }}">AUTHOR</a>
-	<a href="{{ url_for('search_title') }}">Title</a>
-	<a href="{{ url_for('search_year') }}">Year</a>
+	<h1> How to search</h1>
+	<p> Please go to the menu above to try our search engine</p>
+	<p> Select between
+		<ol>
+			<li>ISBN</li>
+			<li>Author</li>
+			<li>Year</li>
+			<li>or Title</li>
+		</ol>
+	</p>
 
 
 {% endblock %}
