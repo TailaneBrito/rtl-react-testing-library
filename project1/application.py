@@ -357,7 +357,7 @@ def search_rate_google_reads(books_isbn):
 
     return book_info
 
-@app.route("/api/book_page/<book_isbn>")
+@app.route("/api/<book_isbn>")
 def book_api(book_isbn):
     ''' return details about a single book '''
 
