@@ -1,0 +1,73 @@
+document.addEventListener('DOMContentLoaded', () => {
+
+    //const socket = io('http://localhost:3000')
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+    socket.on('connect', function() {
+        socket.emit('my event', {
+            data: 'User Connected'
+        })
+
+        var form = $('form').on('submit', function(e) {
+            e.preventDefault()
+            let user_name = $( 'input.username' ).val()
+            let user_input = $( 'input.message' ).val()
+
+            socket.emit('my event', {
+                user_name : user_name,
+                message : user_input
+            })
+
+            $('input.message').val('').focus()
+
+        })
+    })
+
+    socket.on('my response', function(msg){
+        console.log(msg)
+        if( typeof msg.user_name !== 'undefined') {
+            $('h3').remove()
+            $('div.message_holder').append('<div><b style="color:#000">'+msg.user_name+
+            '</b>'+msg.message+'</div>')
+        }
+    })
+
+
+    /**
+
+    const messageContainer = document.getElementById('message-container')
+    const messageForm = document.getElementById('send-container')
+    const messageInput = document.getElementById('message-input')
+
+    const name = prompt('What is your name?')
+    appendMessage('you joined')
+
+    socket.emit('new-user', name)
+
+    socket.on('chat-message', data => {
+      appendMessage(`${data.name}: ${data.message}`)
+    })
+
+    socket.on('user-connected', name => {
+      appendMessage(`${name} connected`)
+    })
+
+    socket.on('user-disconnected', name => {
+      appendMessage(`${name} disconnected`)
+    })
+
+    messageForm.addEventListener('submit', e => {
+      e.preventDefault()
+      const message = messageInput.value
+      appendMessage(`You: ${message}`)
+      socket.emit('send-chat-message', message)
+      messageInput.value = ''
+    })
+
+    function appendMessage(message) {
+      const messageElement = document.createElement('div')
+      messageElement.innerText = message
+      messageContainer.append(messageElement)
+    }
+    **/
+});
