@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    //const socket = io('http://localhost:3000')
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     socket.on('connect', function() {
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if( typeof msg.user_name !== 'undefined') {
             $('h3').remove()
             $('div.message_holder').append('<div><b style="color:#000">'+msg.user_name+
-            '</b>'+msg.message+'</div>')
+            '</b>'+": "+msg.message+'</div>')
         }
     })
 

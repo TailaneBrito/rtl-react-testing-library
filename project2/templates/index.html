@@ -14,17 +14,17 @@
       justify-content: center;
     }
 
-    #message-container {
+    #message_holder {
       width: 80%;
       max-width: 1200px;
     }
 
-    #message-container div {
+    #message_holder div {
       background-color: #CCC;
       padding: 5px;
     }
 
-    #message-container div:nth-child(2n) {
+    #message_holder div:nth-child(2n) {
       background-color: #FFF;
     }
 
@@ -41,28 +41,33 @@
     #message-input {
       flex-grow: 1;
     }
+
+    #user-input {
+      flex-grow: 1;
+    }
   </style>
     </head>
     <body>
 
         <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-        <div class="message_holder"></div>
+        <div class="message_holder" id="message-container"></div>
 
-        <form action="" method="POST">
-            <input type="text" class="username" placeholder="User Name"/>
-            <input type="text" class="message" placeholder="Messages"/>
+        <form id="send-container" action="" method="POST">
+            <input type="text" class="username" placeholder="User Name" id="user-input"/>
+            <input type="text" class="message" placeholder="Messages" id="message-input"/>
             <input type="submit"/>
         </form>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-        <!--<script defer src="http://localhost:5000/socket.io/socket.io.js"></script>-->
         <script src="{{ url_for('static', filename='script.js') }}"></script>
 
+        <!-- old
         <div id="message-container"></div>
         <form id="send-container" method="POST">
             <input type="text" id="message-input">
             <button type="submit" id="send-button">Send</button>
         </form>
+        -->
     </body>
 </html>
