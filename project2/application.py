@@ -28,11 +28,6 @@ def handle_messages(json, methods=['GET', 'POST']):
     print('received:' + str(json))
     emit('send-chat-message', json, callback=messageReceived)
 
-@socketio.on("submit vote")
-def vote(data):
-    selection = data["selection"]
-    votes[selection] += 1
-    emit("vote totals", votes, broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
