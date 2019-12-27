@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let user_name = $( 'input.username' ).val()
             let user_input = $( 'input.message' ).val()
 
+            $("input.username").attr("disabled", true);
+
             socket.emit('my event', {
                 user_name : user_name,
                 message : user_input
