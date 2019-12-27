@@ -22,12 +22,5 @@ def handle_messages_custom_event(json, methods=['GET', 'POST']):
     socketio.emit('my response', json, callback=messageReceived)
 
 
-@socketio.on('send-chat-message')
-def handle_messages(json, methods=['GET', 'POST']):
-    message = data
-    print('received:' + str(json))
-    emit('send-chat-message', json, callback=messageReceived)
-
-
 if __name__ == '__main__':
     socketio.run(app, debug=True)
