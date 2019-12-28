@@ -1,4 +1,4 @@
-const io = require('socket.io')(5000)
+const io = require('socket.io')listen(server)
 //const io = require('socket.io')(location.protocol + '//' + document.domain + ':' + location.port)
 
 const users = {}
