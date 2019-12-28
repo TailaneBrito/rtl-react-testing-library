@@ -1,5 +1,6 @@
-const io = require('socket.io')listen(server)
+//const io = require('socket.io', { rememberTransport: false, transports: ['WebSocket', 'Flash Socket', 'AJAX long-polling'] }).listen(5000)
 //const io = require('socket.io')(location.protocol + '//' + document.domain + ':' + location.port)
+const io = require('socket.io').listen(5000)
 
 const users = {}
 

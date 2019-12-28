@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
 
     const name = prompt('Wat is your name?')
-     $("input.username").attr("value", name);
-     $("input.username").attr("disabled", true);
+    $("input.username").attr("value", name);
+    $("input.username").attr("disabled", true);
 
     socket.on('connect', function() {
 
@@ -15,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var form = $('form').on('submit', function(e) {
             e.preventDefault()
 
-            //let user_name = $( 'input.username' ).val()
-            let user_name = name
+            let user_name = $( 'input.username' ).val()
             let user_input = $( 'input.message' ).val()
 
             socket.emit('my event', {
@@ -30,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     socket.on('my response', function(msg){
-        //console.log(msg)
+        console.log(msg)
         if( typeof msg.user_name !== 'undefined') {
             $('h3').remove()
             $('div.message_holder').append('<div><b style="color:#000">'+msg.user_name+
