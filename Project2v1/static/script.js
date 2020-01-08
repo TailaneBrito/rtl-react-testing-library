@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('message-input')
     const messageUser = document.getElementById('username')
 
+    //cons io = require('socket.io-client')
+
     const name = prompt('What is your name?')
 
 
@@ -16,20 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
     messageUser.setAttribute("disabled", true)
 
     socket.emit('new-user', name)
-    appendMessage('You joined')
+    //appendMessage('You joined')
 
     socket.on('connect', function(){
         socket.emit('my event', {
             data : 'User Connected!'
+            //socket_id : io
         })
 
-        socket.emit('request_user_name', {
-            user_name : name
-        })
+
     })
 
     socket.on('new-user', name => {
-      appendMessage(`user ${name} connected...`)
+      appendMessage(`user ${name}`)
     })
 
     socket.on('chat-message', data => {
@@ -47,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
     messageForm.addEventListener('submit', e => {
       e.preventDefault()
       const message = messageInput.value
+
+      // getting the user name and sending it
+      let user_name = name
+      socket.emit('res_user_name', user_name)
 
       //appendMessage(`${name}: ${message}`)
       socket.emit('send-chat-message', {
@@ -69,16 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('my response', function(msg){
         console.log(msg)
 
-        if( typeof msg.user_name !== 'undefined'){
-            $('h3').remove()
-            const messageElement = document.createElement('div')
-            messageElement.innerText = msg.user + " : " + msg
-            messageContainer.append(messageElement)
-         }
-    })
-
-    socket.on('post_message', function(msg){
-        console.log(msg)
         if( typeof msg.user_name !== 'undefined'){
             $('h3').remove()
             const messageElement = document.createElement('div')
