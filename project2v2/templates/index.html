@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="shortcut icon" href="">
+        <title>Chat App</title>
+        <style>
+    body {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    #message_holder {
+      width: 80%;
+      max-width: 1200px;
+    }
+
+    #message_holder div {
+      background-color: #CCC;
+      padding: 5px;
+    }
+
+    #message_holder div:nth-child(2n) {
+      background-color: #FFF;
+    }
+
+    #send-container {
+      position: fixed;
+      padding-bottom: 30px;
+      bottom: 0;
+      background-color: white;
+      max-width: 1200px;
+      width: 80%;
+      display: flex;
+    }
+
+    #message-input {
+      flex-grow: 1;
+    }
+
+    #user-input {
+      flex-grow: 1;
+    }
+  </style>
+    </head>
+    <body>
+
+        <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
+        <div class="message_holder" id="message_holder"></div>
+
+        <form id="send-container" action="" method="POST">
+            <input type="text" class="username" placeholder="User Name" id="user-input" name="username"/>
+            <input type="text" class="message" placeholder="Messages" id="message-input"/>
+            <input type="submit"/>
+            <!--<button type="submit" id="send-button">Send</button>-->
+        </form>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+    </body>
+</html>

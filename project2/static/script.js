@@ -6,10 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     $("input.username").attr("value", name);
     $("input.username").attr("disabled", true);
 
+    const users = {}
+
+
     socket.on('connect', function() {
 
         socket.emit('my event', {
-            data: 'User Connected'
+            data: 'User Connected ' + name
         })
 
         var form = $('form').on('submit', function(e) {
@@ -18,14 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
             let user_name = $( 'input.username' ).val()
             let user_input = $( 'input.message' ).val()
 
+
             socket.emit('my event', {
                 user_name : user_name,
                 message : user_input
             })
 
+            socket.emit('new-user', user_name)
+
             $('input.message').val('').focus()
 
         })
+    })
+
+    socket.on('new-user', function(name){
+       console.log(name)
+       users[socket.id] = name
+       socket.broadcast.emit('user-connected', name)
     })
 
     socket.on('my response', function(msg){
@@ -36,6 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
             '</b>'+": "+msg.message+'</div>')
         }
     })
+
+    socket.on('user-connected', name => {
+      appendMessage(`${name} connected`)
+    })
+
+    socket.on('user-disconnected', name => {
+      appendMessage(`${name} disconnected`)
+    })
+
+    function appendMessage(message) {
+      const messageElement = document.createElement('div')
+      messageElement.innerText = message
+      //messageContainer.append(messageElement)
+      $('div.message_holder').append(messageElement)
+    }
 
 
     /**
