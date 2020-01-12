@@ -12,10 +12,14 @@ eventually be associated with every message the user sends.
 
 If a user closes the page and returns to your app later,
 the display name should still be remembered.
+    >> close the chat tab after logging in and open new one with the
+        address http://127.0.0.1:5000/logado?
+
 
 Channel Creation: Any user should be able to create a new channel,
 so long as its name doesn’t conflict with the name of an existing
 channel.
+
 Channel List: Users should be able to see a list of all current
 channels, and selecting one should allow the user to view the channel.
 We leave it to you to decide how to display such a list.

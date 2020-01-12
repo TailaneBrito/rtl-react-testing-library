@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ae450c6-78f0-4391-aea0-2328a1409b36" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Project2v1/static/dashboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/static/jquery.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/static/name_prompt.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/templates/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/templates/error.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/templates/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Project2v1/templates/logged.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Project2v1/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Project2v1/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Project2v1/flask_session/2029240f6d1128be89ddc32729463129" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/flask_session/2029240f6d1128be89ddc32729463129" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Project2v1/flask_session/7deddc5520a2bd3d8bdccba07f5b3586" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/flask_session/7deddc5520a2bd3d8bdccba07f5b3586" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Project2v1/static/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/static/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Project2v1/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../project1/application.py" beforeDir="false" afterPath="$PROJECT_DIR$/../project1/application.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Project2v1/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Project2v1/templates/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
