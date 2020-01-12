@@ -2,6 +2,7 @@ import os
 import json
 
 import functools
+from time import localtime, strftime
 from flask_login import LoginManager, current_user, login_required, user_logged_out, user_logged_in
 from flask import Flask, render_template, session, url_for, request, flash, redirect
 from flask_session import Session
@@ -20,15 +21,15 @@ Session(app)
 socketio = SocketIO(app, manage_session=False)
 
 # Flask-Login : --- Setup ---------------------------------------
-login_manager = LoginManager()
-login_manager.init_app(app)
+login = LoginManager(app)
+login.init_app(app)
 
 sess = Session()
 print(sess)
 
 
-@login_manager.user_loader
-def user_loader(user_name):
+@login.user_loader
+def load_user(user_name):
     """ Flask-Login"""
     data_user = {
         users[user_name] : session['user_name']
@@ -62,39 +63,37 @@ def connection_on():
 
 @socketio.on('new-user')
 def new_user(name):
-    #user_section(name)
     emit('user-connected', name, broadcast=True)
-
-
-@socketio.on('res_user_name')
-def res_user_name(user_name, methods=['GET', 'POST']):
-    print('received message by request-user-name ' + str(user_name))
-
-    socketio.emit('user_name_session', user_name, callback=messageReceived)
-
 
 
 @socketio.on('send-chat-message')
 def send_chat_message(json, methods=['GET', 'POST']):
     print('received message by send-chat-message ' + str(json))
-    socketio.emit('chat-message', json, callback=messageReceived)
+    #socketio.emit('chat-message', json, callback=messageReceived)
+
+    json = {'message': json['message'],
+          'user_name': json['user_name'],
+          'timestamp': strftime('%b-%d %I:%M%p', localtime())}
+    socketio.emit('chat-message', json, callback=messageReceived())
 
 
 @socketio.on('my event')
 def handle_messages_custom_event(json, methods=['GET', 'POST']):
     print('received message by ' + str(json))
-    # user_section(json)
+    # adding function for data pm and am
+
+    #socketio.emit('my response', json, callback=messageReceived)
     socketio.emit('my response', json, callback=messageReceived)
+
+
 
 
 # Session
 @socketio.on('get-user')
 def user_section(json, methods=['GET', 'POST']):
     ''' action on dashboard.js connect '''
-    ''' definßes the name for the session user '''
-    print('creating session for user ' + str(json))
     name = json['user_name']
-    print(name)
+    # print(name)
     users[name] = request.sid
     session['user_name'] = name
     session['user_sid'] = request.sid

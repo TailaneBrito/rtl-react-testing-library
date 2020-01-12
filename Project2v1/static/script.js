@@ -2,22 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
+    const timestamp = new Date()
+    timestamp.getTime()
+    const time_stamp = timestamp.toLocaleTimeString()
 
 
     const messageContainer = document.getElementById('message-container')
     const messageForm = document.getElementById('send-container')
     const messageInput = document.getElementById('message-input')
-    const messageUser = document.getElementById('username').getAttribute('value')
     const name = document.getElementById('users-connected').getAttribute('name')
 
+    //const messageUser = document.getElementById('username').getAttribute('value')
     //const name = messageUser
-
     //const name = prompt('What is your name?')
     //messageUser.value = messageUser
     //messageUser.setAttribute("disabled", true)
 
     socket.emit('new-user', name)
-    appendMessage('You joined')
+    //appendMessage('You joined')
 
     socket.on('connect', function() {
 
@@ -25,21 +27,28 @@ document.addEventListener('DOMContentLoaded', () => {
             data : 'User connected'
         })
     })
-    /*
-    socket.on('connect', function(){
-        //adding users to the dictionary as soon as they connect
-        socket.emit('my event', {
-            data : 'User Connected!'
-        })
-    })
-    */
 
     socket.on('new-user', name => {
       appendMessage(`user ${name}`)
     })
 
     socket.on('chat-message', data => {
-      appendMessage(`${data.user_name}: ${data.message}`)
+
+      const p = document.createElement('p');
+      const span_username = document.createElement('span');
+      const span_timestamp = document.createElement('span');
+      const br = document.createElement('br');
+
+      span_username.innerHTML = data.user_name;
+      span_timestamp.innerHTML = data.timestamp;
+
+      p.innerHTML = span_username.outerHMTL + br.outerHTML +
+                    data.message + br.outerHMTL +
+                    span_timestamp.outerHTML;
+
+      //appendMessage(p)
+      appendMessage(`${data.user_name} says ${data.timestamp} : ${data.message}`)
+
     })
 
     socket.on('user-connected', name => {
@@ -54,14 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       const message = messageInput.value
 
-      // getting the user name and sending it
       let user_name = name
-      //socket.emit('res_user_name', user_name)
 
       //appendMessage(`${name}: ${message}`)
+
       socket.emit('send-chat-message', {
             user_name : name ,
-            message : message
+            message : message,
+            timestamp : time_stamp
         }
       )
 
@@ -86,14 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageContainer.append(messageElement)
          }
     })
-
-    function appendUsers(name){
-
-        users.push({
-            user_key : 'key',
-            user_name : name
-        })
-    }
 
     // LOAD PAGE FUNCTION
     function loadlink(){
