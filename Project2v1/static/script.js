@@ -3,31 +3,36 @@ document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
 
-    //const socket = io('http://localhost:5000')
+
     const messageContainer = document.getElementById('message-container')
     const messageForm = document.getElementById('send-container')
     const messageInput = document.getElementById('message-input')
-    const messageUser = document.getElementById('username')
+    const messageUser = document.getElementById('username').getAttribute('value')
+    const name = document.getElementById('users-connected').getAttribute('name')
 
-    //cons io = require('socket.io-client')
+    //const name = messageUser
 
-    const name = prompt('What is your name?')
-
-
-    messageUser.value = name
-    messageUser.setAttribute("disabled", true)
+    //const name = prompt('What is your name?')
+    //messageUser.value = messageUser
+    //messageUser.setAttribute("disabled", true)
 
     socket.emit('new-user', name)
-    //appendMessage('You joined')
+    appendMessage('You joined')
 
+    socket.on('connect', function() {
+
+        socket.emit('my event', {
+            data : 'User connected'
+        })
+    })
+    /*
     socket.on('connect', function(){
+        //adding users to the dictionary as soon as they connect
         socket.emit('my event', {
             data : 'User Connected!'
-            //socket_id : io
         })
-
-
     })
+    */
 
     socket.on('new-user', name => {
       appendMessage(`user ${name}`)
@@ -51,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // getting the user name and sending it
       let user_name = name
-      socket.emit('res_user_name', user_name)
+      //socket.emit('res_user_name', user_name)
 
       //appendMessage(`${name}: ${message}`)
       socket.emit('send-chat-message', {
@@ -81,5 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
             messageContainer.append(messageElement)
          }
     })
+
+    function appendUsers(name){
+
+        users.push({
+            user_key : 'key',
+            user_name : name
+        })
+    }
 
 });

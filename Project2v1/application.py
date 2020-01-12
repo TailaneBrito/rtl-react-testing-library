@@ -1,45 +1,67 @@
 import os
+import json
 
-from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
-from flask import Flask, render_template, session, url_for, request, flash
+import functools
+from flask_login import LoginManager, current_user, login_required, user_logged_out, user_logged_in
+from flask import Flask, render_template, session, url_for, request, flash, redirect
 from flask_session import Session
 from flask_socketio import SocketIO, emit, send, disconnect, namespace
 
-users = []
+# user dictionary to control the session
+users = {}
 
 app = Flask(__name__)
+
+# Env configuration
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 socketio = SocketIO(app, manage_session=False)
-login = LoginManager(app)
 
-@login.user_loader
-def user_loader(id):
-    return User(id)
+# Flask-Login : --- Setup ---------------------------------------
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+sess = Session()
+print(sess)
 
 
-class User(UserMixin):
-    def __init__(self, username):
-        self.id = username
+@login_manager.user_loader
+def user_loader(user_name):
+    """ Flask-Login"""
+    data_user = {
+        users[user_name] : session['user_name']
+    }
+    return data_user
 
 
 @app.route("/")
+def log():
+
+    # return render_template("dashboard.html")
+    # if user_logged_in is True:
+    return render_template("dashboard.html")
+
+
+@app.route("/logado", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+
+    return render_template("index.html", user=session["user_name"])
 
 
 def messageReceived(methods=['GET', 'POST']):
     print('message was received')
 
+
 @socketio.on('connect')
 def connection_on():
-    print('new user is connecting ')
+    message = 'new user is connecting...'
+    emit('my response ', message)
 
 
 @socketio.on('new-user')
 def new_user(name):
-    print('users ' + name)
     user_section(name)
     emit('user-connected', name, broadcast=True)
 
@@ -61,21 +83,44 @@ def send_chat_message(json, methods=['GET', 'POST']):
 @socketio.on('my event')
 def handle_messages_custom_event(json, methods=['GET', 'POST']):
     print('received message by ' + str(json))
+    user_section(json)
     socketio.emit('my response', json, callback=messageReceived)
 
 
 # Session
-def user_section(user_name):
-    ''' definies the name for the session user'''
-    print('creating session for user ' + user_name)
-    users.append({user_name: request.sid})
-    session['user_name'] = str(user_name)
-    #session['user_id'] = users[user_name]
-    print(users[1])
+@socketio.on('get-user')
+def user_section(json, methods=['GET', 'POST']):
+    ''' action on dashboard.js connect '''
+    ''' definies the name for the session user '''
+    #print('creating session for user ' + str(json))
+    name = json['user_name']
+    print(name)
+    users[name] = request.sid
+    session['user_name'] = name
+    print(users)
 
-socketio.on('username', namespace='/private')
-def receive_username(username):
-    users.append({username : request.id})
+    validate_user_section()
+
+
+
+def validate_user_section():
+    ''' Validates if a user is into the session, if not rises up an error '''
+
+    if session['user_name'] == None:
+        return render_template("error.html", message="Create #1 Invalid user name or password, please type one.")
+
+
+@app.route('/logout')
+def logout():
+
+    if not session['user_name'] == None:
+        flash('user {} successfully. see you later!!!'.format(session['user_name']))
+        session['user_name'] = None
+    else:
+        flash('Login in to start')
+        return render_template("dashboard.html")
+
+
 
 
 if __name__ == '__main__':

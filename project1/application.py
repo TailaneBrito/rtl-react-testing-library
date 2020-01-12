@@ -231,6 +231,7 @@ def srch_title():
 def search_year():
     return render_template("search_year.html")
 
+
 @app.route("/year_list", methods=["POST"])
 def srch_year():  
     ''' search_by_year.html action '''
@@ -245,6 +246,7 @@ def srch_year():
         return render_template("error.html", message="Year list failed. Please check it out.")
 
     return render_template("list_year.html", year_list=year_list, size=size, year=book_year)
+
 
 ''' BOOK PAGE '''
 @app.route("/book_page/<book_isbn>")
