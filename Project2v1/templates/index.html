@@ -71,7 +71,12 @@
   </style>
 </head>
 <body>
-  <div id="users-connected" name="{{ user }}">users connected {{ user }}</div>
+  <div id="users-connected" name="{{ user }}">
+    <b>Users Connected </b>
+    {% for i in users %}
+    <li>{{ i }}</li>
+    {% endfor %}
+    </div>
   <input type="hidden" name="user">
   <div id="message-container">
   </div>

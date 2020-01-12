@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+
 </head>
 <body>
 
@@ -19,14 +20,17 @@
     <div id="myPrompt"></div>
 
     <form id="user-login" target="_blank" action="{{ url_for('index') }}" >
-        <input type="text" id="username" placeholder="User Name">
+        <input type="text" id="username" placeholder="User Name" disable="true">
+        <input type="text" id="channel" placeholder="Type new channel">
+        <b>OR</b>
 
         <select>
+            <option value="channel0">Select Channel....</option>
             <option value="channel1">Admin_Conv</option>
             <option value="channel2">Lamas_Lovers</option>
             <option value="channel3">Just_Dance_The_Game</option>
         </select>
-
+        <i>to</i>
         <button type="submit" id="send-button">Connect</button>
     </form>
 

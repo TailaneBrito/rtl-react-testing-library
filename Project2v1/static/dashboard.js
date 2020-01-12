@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const messageUserLogged = document.getElementById('username')
     const  messageUserSession = document.getElementById('user_logged')
+    const  messageChannel = document.getElementById('channel')
 
     // inputting user_name
     const name = prompt('What is your name?')
@@ -16,8 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var users = new Object()
     var users = {}
+    var channel = {}
 
+    // add users to user dict
     users.name = name
+
+    // add channel and users to channel dict
+    channel.name = messageChannel.value
+    channel.user = users.name
+
     console.log(users.name)
 
     socket.on('connect', function() {
@@ -25,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit('get-user', {
             "user_name" :  users.name
             })
+
+      socket.emit('get-channel', {
+            "channel" : channel.name,
+            "user" : channel.user
+      })
     })
 
 
@@ -39,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
       messageElement.innerText = message
       messageContainer.append(messageElement)
     }
-
 
     socket.on('my response', function(msg){
         console.log(msg)

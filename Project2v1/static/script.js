@@ -95,4 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    // LOAD PAGE FUNCTION
+    function loadlink(){
+        $('users-connected').load('script.js',function () {
+            $(this).unwrap();
+        });
+    }
+
+    loadlink(); // This will run on page load
+
+    setInterval(function(){
+        loadlink() // this will run after every 5 seconds
+    }, 5000);
+
+
 });

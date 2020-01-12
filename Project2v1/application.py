@@ -47,7 +47,7 @@ def log():
 @app.route("/logado", methods=["GET", "POST"])
 def index():
 
-    return render_template("index.html", user=session["user_name"])
+    return render_template("index.html", user=session["user_name"], users=users)
 
 
 def messageReceived(methods=['GET', 'POST']):
@@ -62,7 +62,7 @@ def connection_on():
 
 @socketio.on('new-user')
 def new_user(name):
-    user_section(name)
+    #user_section(name)
     emit('user-connected', name, broadcast=True)
 
 
@@ -83,7 +83,7 @@ def send_chat_message(json, methods=['GET', 'POST']):
 @socketio.on('my event')
 def handle_messages_custom_event(json, methods=['GET', 'POST']):
     print('received message by ' + str(json))
-    user_section(json)
+    # user_section(json)
     socketio.emit('my response', json, callback=messageReceived)
 
 
@@ -91,16 +91,26 @@ def handle_messages_custom_event(json, methods=['GET', 'POST']):
 @socketio.on('get-user')
 def user_section(json, methods=['GET', 'POST']):
     ''' action on dashboard.js connect '''
-    ''' definies the name for the session user '''
-    #print('creating session for user ' + str(json))
+    ''' definßes the name for the session user '''
+    print('creating session for user ' + str(json))
     name = json['user_name']
     print(name)
     users[name] = request.sid
     session['user_name'] = name
+    session['user_sid'] = request.sid
     print(users)
 
     validate_user_section()
 
+
+@socketio.on('channel')
+def get_channel_name(json, methods=['GET', 'POST']):
+    print('action on dashboard.htm channel ' + str(json))
+
+    channel = json['channel']
+    channel_user = json['user']
+
+    print("{} {}".format(channel, channel_user))
 
 
 def validate_user_section():
@@ -108,7 +118,6 @@ def validate_user_section():
 
     if session['user_name'] == None:
         return render_template("error.html", message="Create #1 Invalid user name or password, please type one.")
-
 
 @app.route('/logout')
 def logout():
@@ -119,8 +128,6 @@ def logout():
     else:
         flash('Login in to start')
         return render_template("dashboard.html")
-
-
 
 
 if __name__ == '__main__':
