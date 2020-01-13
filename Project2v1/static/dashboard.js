@@ -24,46 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // add users to user dict
     users.name = name
     users.channel = selectRoomName.value
-    //console.log(room)
-
-    // add channel and users to channel dict
-    //channel.name = messageChannel.value
-    //channel.user = users.name
-
-    console.log(users.name)
-
-    /*
-    socket.on('connect', function() {
-      // adding user entrees
-      socket.emit('get-user', {
-            "user_name" :  users.name
-            })
-    })
-    */
 
     socket.on('my response', function(msg){
         console.log(msg)
-    })
-
-    //console.log(room)
-
-    //Room selection
-    document.querySelectorAll('.select-room').forEach(p =>{
-
-        p.onclick = () => {
-            let newRoom = p.innerHTML;
-            //user wants to joy the same as the actual room?
-            if (newRoom == room) {
-                msg = `You are already in ${room} room.`
-                //printSysMsg(msg);
-                appendMessage(msg)
-
-            }else{
-                leaveRoom(room);
-                joinRoom(newRoom);
-                room = newRoom
-            }
-        }
     })
 
     btnConnect.onclick = function(){
@@ -80,31 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.emit('get-user', json)
 
         console.log(room)
-    }
-
-    /* logout from chat
-    document.querySelector("#logout-btn").onclick() => {
-        leaveRom(room);
-    }
-    */
-    // leave the room
-    function leaveRoom(room){
-        socket.emit('leave', {'user_name' : user_name, 'room': room})
-    }
-
-    //join room
-    function joinRoom(room){
-        socket.emit('join', {'user_name' : user_name, 'room': room})
-        //clear message area
-        document.querySelectorAll('message-container').innerHTML = ''
-    }
-
-    //printing system message
-    function printSysMsg(msg){
-        const p = document.createElement('p')
-        p.innerHTML = msg;
-        document.querySelector('#message-container').append(p)
-
     }
 
 

@@ -147,14 +147,14 @@ def logout():
     session['user_name'] = None
     return render_template("dashboard.html")
 
-    ''' 
+
     if not session['user_name'] == None:
         flash('user {} successfully. see you later!!!'.format(session['user_name']))
         session['user_name'] = None
     else:
         flash('Login in to start')
         return render_template("dashboard.html")
-    '''
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
