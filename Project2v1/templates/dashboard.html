@@ -24,14 +24,13 @@
         <input type="text" id="channel" placeholder="Type new channel">
         <b>OR</b>
 
-        <select>
-            <option value="channel0">Select Channel....</option>
-            <option value="channel1">Admin_Conv</option>
-            <option value="channel2">Lamas_Lovers</option>
-            <option value="channel3">Just_Dance_The_Game</option>
+        <select id="room_name">
+            {% for room in rooms %}
+                <option value="{{ room }}">{{ room|title }}</option>
+            {% endfor %}
         </select>
         <i>to</i>
-        <button type="submit" id="send-button">Connect</button>
+        <button type="submit" id="send-button" >Connect</button>
     </form>
 
 

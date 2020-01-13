@@ -72,11 +72,13 @@
 </head>
 <body>
   <div id="users-connected" name="{{ user }}">
+    <a href="{{ url_for('logout')}}" >Sing Out</a>
+    <p>ROOM: {{ room|title }}</p>
     <b>Users Connected </b>
-    {% for i in users %}
-    <li>{{ i }}</li>
-    {% endfor %}
-    </div>
+      {% for i in users %}
+        <li>{{ i }}</li>
+      {% endfor %}
+  </div>
   <input type="hidden" name="user">
   <div id="message-container">
   </div>

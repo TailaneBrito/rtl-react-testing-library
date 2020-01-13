@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
+    let room
+
     const timestamp = new Date()
     timestamp.getTime()
     const time_stamp = timestamp.toLocaleTimeString()
@@ -70,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit('send-chat-message', {
             user_name : name ,
             message : message,
-            timestamp : time_stamp
+            timestamp : time_stamp,
+            room : room
         }
       )
 
@@ -108,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(function(){
         loadlink() // this will run after every 5 seconds
     }, 5000);
+
 
 
 });

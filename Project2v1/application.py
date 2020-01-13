@@ -6,7 +6,7 @@ from time import localtime, strftime
 from flask_login import LoginManager, current_user, login_required, user_logged_out, user_logged_in
 from flask import Flask, render_template, session, url_for, request, flash, redirect
 from flask_session import Session
-from flask_socketio import SocketIO, emit, send, disconnect, namespace
+from flask_socketio import SocketIO, emit, send, disconnect, namespace, join_room, leave_room
 
 # user dictionary to control the session
 users = {}
@@ -27,6 +27,7 @@ login.init_app(app)
 sess = Session()
 print(sess)
 
+ROOMS = ["lounge", "news", "games", "coding"]
 
 @login.user_loader
 def load_user(user_name):
@@ -42,13 +43,13 @@ def log():
 
     # return render_template("dashboard.html")
     # if user_logged_in is True:
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", rooms=ROOMS)
 
 
 @app.route("/logado", methods=["GET", "POST"])
 def index():
 
-    return render_template("index.html", user=session["user_name"], users=users)
+    return render_template("index.html", user=session["user_name"], users=users, room=session['user_room'])
 
 
 def messageReceived(methods=['GET', 'POST']):
@@ -72,8 +73,10 @@ def send_chat_message(json, methods=['GET', 'POST']):
     #socketio.emit('chat-message', json, callback=messageReceived)
 
     json = {'message': json['message'],
-          'user_name': json['user_name'],
-          'timestamp': strftime('%b-%d %I:%M%p', localtime())}
+            'user_name': json['user_name'],
+            'timestamp': strftime('%b-%d %I:%M%p', localtime()),
+            'room': session['user_room']}
+
     socketio.emit('chat-message', json, callback=messageReceived())
 
 
@@ -92,14 +95,20 @@ def handle_messages_custom_event(json, methods=['GET', 'POST']):
 @socketio.on('get-user')
 def user_section(json, methods=['GET', 'POST']):
     ''' action on dashboard.js connect '''
+    print('get-user application ' + str(json))
     name = json['user_name']
-    # print(name)
+    room = json['room']
+
+    # session user
     users[name] = request.sid
     session['user_name'] = name
+    session['user_room'] = room
     session['user_sid'] = request.sid
     print(users)
+    print(session['user_room'])
 
     validate_user_section()
+
 
 
 @socketio.on('channel')
@@ -112,6 +121,20 @@ def get_channel_name(json, methods=['GET', 'POST']):
     print("{} {}".format(channel, channel_user))
 
 
+@socketio.on('join')
+def join(data):
+    join_room(data['room'])
+    send({'message' : data['user_name'] + "has joined the " + data['room'] +
+          "room"}, room=data['room'])
+
+
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['room'])
+    send({'message': data['user_name'] + "has left the " + data['room'] +
+          "room"}, room=data['room'])
+
+
 def validate_user_section():
     ''' Validates if a user is into the session, if not rises up an error '''
 
@@ -121,13 +144,17 @@ def validate_user_section():
 @app.route('/logout')
 def logout():
 
+    session['user_name'] = None
+    return render_template("dashboard.html")
+
+    ''' 
     if not session['user_name'] == None:
         flash('user {} successfully. see you later!!!'.format(session['user_name']))
         session['user_name'] = None
     else:
         flash('Login in to start')
         return render_template("dashboard.html")
-
+    '''
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
