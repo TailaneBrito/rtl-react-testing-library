@@ -33,7 +33,7 @@ ROOMS = ["lounge", "news", "games", "coding"]
 def load_user(user_name):
     """ Flask-Login"""
     data_user = {
-        users[user_name] : session['user_name']
+        users[user_name]: session['user_name']
     }
     return data_user
 
@@ -46,7 +46,7 @@ def log():
     return render_template("dashboard.html", rooms=ROOMS)
 
 
-@app.route("/logado", methods=["GET", "POST"])
+@app.route("/logado")
 def index():
 
     return render_template("index.html", user=session["user_name"], users=users, room=session['user_room'])

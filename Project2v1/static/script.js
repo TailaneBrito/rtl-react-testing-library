@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
-    let room
+
+    var room = "Lounge"
 
     const timestamp = new Date()
     timestamp.getTime()
@@ -24,15 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.emit('new-user', name)
     //appendMessage('You joined')
 
-    /*
+
     socket.on('connect', function() {
 
-        socket.emit('my event', {
-            data : 'User connected'
-        })
+        joinRoom("Lounge")
+
     })
 
-    */
+
 
     socket.on('new-user', name => {
       appendMessage(`user ${name}`)
@@ -40,23 +40,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('chat-message', data => {
 
-      /*
+
       const p = document.createElement('p');
       const span_username = document.createElement('span');
       const span_timestamp = document.createElement('span');
       const br = document.createElement('br');
 
-      span_username.innerHTML = data.user_name;
-      span_timestamp.innerHTML = data.timestamp;
+        if (data.user_name){
 
-      p.innerHTML = span_username.outerHMTL + br.outerHTML +
-                    data.message + br.outerHMTL +
-                    span_timestamp.outerHTML;
+          p.setAttribute("class", "my-msg");
+          span_username.setAttribute("class", "my-username");
+          span_username.innerText = data.user_name;
+
+          span_timestamp.setAttribute("class", "timestamp");
+          span_timestamp.innerText = data.timestamp;
+
+          p.innerHTML = span_username.innerText +
+                        br.outerHTML + data.message
+                        + br.innerText + br.outerHTML +
+                        span_timestamp.innerText + br.innerText + br.outerHTML +data.room
+        }else{
+          printSysMsg(data.message)
+        }
 
       //appendMessage(p)
+      messageContainer.append(p);
 
-      */
-      appendMessage(`${data.user_name} says ${data.timestamp} : ${data.message}`)
+      //appendMessage(`${data.user_name} says ${data.timestamp} : ${data.message} on ${data.room}`)
 
     })
 
@@ -84,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       )
 
-      //const user_id = users[socket.id]
       messageInput.value = ''
     })
 
@@ -146,12 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // leave the room
     function leaveRoom(room){
-        socket.emit('leave', {'user_name' : user_name, 'room': room})
+        socket.emit('leave', {'user_name' : name, 'room': room})
     }
 
     //join room
     function joinRoom(room){
-        socket.emit('join', {'user_name' : user_name, 'room': room})
+        socket.emit('join', {'user_name' : name, 'room': room})
         //clear message area
         document.querySelectorAll('#message-container').innerHTML = ''
     }
