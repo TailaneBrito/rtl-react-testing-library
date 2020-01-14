@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`room ${room}`)
     }
 
+    //adds the information from user to the users list
     socket.on('get-user-info', function(json){
         users.name = json.name,
         users.room = json.room,

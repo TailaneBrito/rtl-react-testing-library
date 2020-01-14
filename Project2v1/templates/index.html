@@ -73,14 +73,25 @@
 <body>
   <div id="users-connected" name="{{ user }}">
     <h4>Welcome {{ user|title }}</h4>
-    <a href="{{ url_for('logout')}}" >Sing Out</a>
-    <p id="room">ROOM: {{ room|title }}</p>
+    <!--<button id="btnLogout">Sing Out</button>-->
+    <button id="btnLogout" href="{{ url_for('leaveTheRoom', json=json )}}" >Sing Out</button>
+
+    <!-- room name -->
+    <p id="room" value="{{ room }}">ROOM: {{ room|title }}</p>
+
+    <!-- connected user list  -->
     <b>Users Connected </b>
       <ul id="list-user-room" class="list-user-room">
           {% for i in users %}
             <li id="{{i}}">{{ i }}</li>
           {% endfor %}
       </ul>
+    <!-- display room -->
+    <div id="display-message-section">
+
+
+    </div>
+    <!-- connected to that room list  -->
   </div>
   <input type="hidden" name="user">
   <div id="message-container">

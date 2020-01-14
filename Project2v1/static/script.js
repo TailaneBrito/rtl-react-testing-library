@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
 
-    //var room = "Lounge"
-
     const timestamp = new Date()
     timestamp.getTime()
     const time_stamp = timestamp.toLocaleTimeString()
@@ -12,13 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageContainer = document.getElementById('message-container')
     const messageForm = document.getElementById('send-container')
     const messageInput = document.getElementById('message-input')
-    //const name = document.getElementById('users-connected').getAttribute('name')
-    const btnLogout = document.getElementById('logout-btn')
+    const btnLogout = document.getElementById('btnLogout')
     const listName = document.getElementById('list-user-room')
-    const room = document.getElementById('room')
+    const room = document.getElementById('room').getAttribute("value")
     const name = document.getElementById('username').getAttribute("value")
 
+    const room_name = room
 
+    //go to application.py and grab new-user func
     socket.emit('new-user', name)
     //appendMessage('You joined')
 
@@ -59,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 
+    // receive from application.py the name of connected user
     socket.on('user-connected', name => {
       appendMessage(`${name} connected`)
     })
@@ -86,6 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
       messageInput.value = ''
     })
 
+    socket.on('leave-room', data => {
+        console.log(`on leave-room`)
+        leaveRoom(data.room)
+    })
+
     function appendMessage(message) {
       const messageElement = document.createElement('div')
       messageElement.innerText = message
@@ -104,7 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
          }
     })
 
+
+
     //Room selection
+    /*
     document.querySelectorAll('users-connected').forEach(p =>{
 
         p.onclick = () => {
@@ -122,15 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     })
+    */
 
-    //logout from chat
+    //logout from chat active Leave function
     btnLogout.onclick = function(){
-        leaveRom(room);
+        leaveRoom(room_name);
     }
 
     // leave the room
     function leaveRoom(room){
-        socket.emit('leave', {'user_name' : name, 'room': room})
+        console.log(`leaveRoom func calling leave`)
+        //sends to the server a request for the user to leave the room
+        socket.emit('leave', {'user_name' : name, 'room': room_name})
     }
 
     //join room
@@ -145,12 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function printSysMsg(msg){
         const p = document.createElement('p')
         p.innerHTML = msg;
-        document.querySelector('#message-container').append(p)
+        messageContainer.append(p)
 
+        socket.emit('redirect-dashboard', { "message": "redirecting"})
     }
-
-    //disconnecting
-    socket.on('disconnect', function(){
-        socket.broadcast.emit(`user ${name} disconnectedßß`)
-    })
 });

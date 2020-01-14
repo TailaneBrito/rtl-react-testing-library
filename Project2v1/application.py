@@ -61,15 +61,27 @@ def chat():
     print(room)
     name = session['user_name']
     print(name)
-    return render_template("index.html", user=name, users=users, room=room)
 
+    json = {
+        "user_name": name,
+        "room": room
+    }
+
+    return render_template("index.html", json=json, user=name, users=users, room=room)
+
+@app.route('/chat-room')
+def leaveTheRoom(json):
+
+    on_leave(json)
 
 def messageReceived(methods=['GET', 'POST']):
     print('message was received')
 
 
+
 @socketio.on('new-user')
 def new_user(name):
+    ''' send back to script.js on the user-connected func '''
     emit('user-connected', name, broadcast=True)
 
 
@@ -131,21 +143,21 @@ def user_section(json, methods=['GET', 'POST']):
 def on_join(data):
     print(data['room'])
     join_room(data['room'])
-    socketio.emit('my response', {'message': data['user_name'] + " has joined the " + data['room'] + " room "},
-                  room=data['room'])
-
+    socketio.emit('chat-message', {'message': data['user_name'] + " has joined the " + data['room'] + " room "})
 
 @socketio.on('leave')
-def leave(data):
+def on_leave(data):
     ''' Users leave the room '''
+    username = str(data['user_name'])
+    room = str(data["room"])
 
-    username = data['user_name']
-    room = data["room"]
-    leave_room(room)
+    print(username + " is leaving the " + room + " room ")
+    socketio.emit('chat-message', {'message': username + " has left the " + room + " room"})
 
-    socketio.emit('my response', {'message': data['user_name'] + "has left the " + data['room'] +
-          "room"}, room=data['room'])
+socketio.on('redirect-dashboard')
+def on_redirect_dash():
 
+    return redirect(url_for("chat"))
 
 def validate_user_section():
     ''' Validates if a user is into the session, if not rises up an error '''
@@ -153,7 +165,7 @@ def validate_user_section():
     if session['user_name'] == None:
         return render_template("error.html", message="User Not in session, please update the page and try again")
     else:
-        return url_for("chat")
+        return redirect(url_for("index"))
 
 @socketio.on('disconnect')
 def disconnect():
