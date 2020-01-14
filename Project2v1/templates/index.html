@@ -9,7 +9,7 @@
   <!--<script defer src="script.js"></script>-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-  <script id='name' data-name="{{user}}" src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
   <style>
     body {
@@ -72,19 +72,21 @@
 </head>
 <body>
   <div id="users-connected" name="{{ user }}">
-    <button id="logout-btn">Sing Out</button>
+    <h4>Welcome {{ user|title }}</h4>
     <a href="{{ url_for('logout')}}" >Sing Out</a>
-    <p class="room">ROOM: {{ room|title }}</p>
+    <p id="room">ROOM: {{ room|title }}</p>
     <b>Users Connected </b>
-      {% for i in users %}
-        <li>{{ i }}</li>
-      {% endfor %}
+      <ul id="list-user-room" class="list-user-room">
+          {% for i in users %}
+            <li id="{{i}}">{{ i }}</li>
+          {% endfor %}
+      </ul>
   </div>
   <input type="hidden" name="user">
   <div id="message-container">
   </div>
   <form id="send-container">
-    <input type="hidden" id="username" placeholder="User Name" value="{{ user }}">
+    <input id="username" placeholder="User Name" value="{{ user }}">
     <input type="text" id="message-input">
     <button type="submit" id="send-button">Send</button>
   </form>

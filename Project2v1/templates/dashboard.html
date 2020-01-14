@@ -12,30 +12,24 @@
 <body>
 
     <div id="user_logged"></div>
-    <button id="logout-btn">
-        <a href="{{ url_for('logout')}}" >Sing Out</a>
-    </button>
+    <button id="logout-btn">Sing Out</button>
+    <a href="{{ url_for('logout')}}" >Sing Out</a>
     <h1>Please, pick up a channel or create a new one!</h1>
 
-    <div id="myAlert"></div>
-    <div id="myConfirm"></div>
-    <div id="myPrompt"></div>
+    <form id="user-login" target="_blank" action="{{ url_for('chat')}}" method="POST" enctype="multipart/form-data">
+        <input type="text" id="username" placeholder="User Name" disable="true" value="{{ user }}">
+        <!--<input type="text" id="channel" placeholder="Type new channel">-->
+        <!--<b>OR</b>-->
 
-    <form id="user-login" target="_blank" action="{{ url_for('index') }}" >
-        <input type="text" id="username" placeholder="User Name" disable="true">
-        <input type="text" id="channel" placeholder="Type new channel">
-        <b>OR</b>
+        <select id="room_name" name="room_name">
+            {% for i in rooms %}
+                <option value="{{ i|title }}">{{ i|title }}</option>
 
-        <select id="room_name">
-            {% for room in rooms %}
-                <option value="{{ room }}">{{ room|title }}</option>
             {% endfor %}
         </select>
+        <input id="hidden_room" type="text" type="hidden" value="{{i}}">
         <i>to</i>
         <button type="submit" id="send-button" >Connect</button>
     </form>
-
-
-
 </body>
 </html>

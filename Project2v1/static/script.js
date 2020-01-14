@@ -3,43 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
     var socket = io.connect((location.protocol + '//' + document.domain + ':' + location.port))
     var users = {}
 
-    var room = "Lounge"
+    //var room = "Lounge"
 
     const timestamp = new Date()
     timestamp.getTime()
     const time_stamp = timestamp.toLocaleTimeString()
 
-
     const messageContainer = document.getElementById('message-container')
     const messageForm = document.getElementById('send-container')
     const messageInput = document.getElementById('message-input')
-    const name = document.getElementById('users-connected').getAttribute('name')
+    //const name = document.getElementById('users-connected').getAttribute('name')
     const btnLogout = document.getElementById('logout-btn')
+    const listName = document.getElementById('list-user-room')
+    const room = document.getElementById('room')
+    const name = document.getElementById('username').getAttribute("value")
 
-    //const messageUser = document.getElementById('username').getAttribute('value')
-    //const name = messageUser
-    //const name = prompt('What is your name?')
-    //messageUser.value = messageUser
-    //messageUser.setAttribute("disabled", true)
 
     socket.emit('new-user', name)
     //appendMessage('You joined')
-
-
-    socket.on('connect', function() {
-
-        joinRoom("Lounge")
-
-    })
-
 
 
     socket.on('new-user', name => {
       appendMessage(`user ${name}`)
     })
 
-    socket.on('chat-message', data => {
 
+    socket.on('chat-message', data => {
 
       const p = document.createElement('p');
       const span_username = document.createElement('span');
@@ -115,20 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
          }
     })
 
-    // LOAD PAGE FUNCTION
-    function loadlink(){
-        $('users-connected').load('script.js',function () {
-            $(this).unwrap();
-        });
-    }
-
-    loadlink(); // This will run on page load
-
-    setInterval(function(){
-        loadlink() // this will run after every 5 seconds
-    }, 5000);
-
-      //Room selection
+    //Room selection
     document.querySelectorAll('users-connected').forEach(p =>{
 
         p.onclick = () => {
@@ -148,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     //logout from chat
-
     btnLogout.onclick = function(){
         leaveRom(room);
     }
@@ -160,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //join room
     function joinRoom(room){
+        console(room)
         socket.emit('join', {'user_name' : name, 'room': room})
         //clear message area
         document.querySelectorAll('#message-container').innerHTML = ''
@@ -173,6 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-
-
+    //disconnecting
+    socket.on('disconnect', function(){
+        socket.broadcast.emit(`user ${name} disconnectedßß`)
+    })
 });
