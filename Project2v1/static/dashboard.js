@@ -84,12 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#message-container').innerHTML = ''
     }
 
-    //printing system message
-    function printSysMsg(msg){
-        const p = document.createElement('p')
-        p.innerHTML = msg;
-        document.querySelector('#message-container').append(p)
-    }
 
 
 

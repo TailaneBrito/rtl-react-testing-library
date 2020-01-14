@@ -134,7 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //logout from chat active Leave function
     btnLogout.onclick = function(){
-        leaveRoom(room_name);
+        leaveRoom(room_name)
+        //closes the tab after clicking the leave room button
+        window.close();
     }
 
     // leave the room
