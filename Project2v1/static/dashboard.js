@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function get_user_room(){
+        // gets the user and assign it to a room of his/her choice.
         var room = selectRoomName.value
-
         let newRoom = room
 
         if(newRoom == room){

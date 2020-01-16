@@ -6,6 +6,7 @@ Werkzeug==0.16.0
 eventlet
 npm install -g browserify
 requests
+npm install --save socket.io-client
 
 
 
