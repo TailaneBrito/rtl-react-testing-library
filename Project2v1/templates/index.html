@@ -7,6 +7,9 @@
   <title>Chat App PJ2v1</title>
   <!--<script defer src="http://localhost:5000/socket.io/socket.io.js"></script>-->
   <!--<script defer src="script.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
   <style>
     body {
@@ -68,38 +71,21 @@
   </style>
 </head>
 <body>
-
-  <!-- handle error messages -->
-  {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <p class=formError>{{ messages[0] }}</p>
-            {% endif %}
-  {% endwith %}
-
-  <div id="users-connected" name="{{ json.user_name }}">
-     <!--<button id="btnLogout">Sing Out</button>-->
-    <button id="btnLogout" href="{{ url_for('leaveTheRoom', json=json|safe )}}" >Sing Out</button>
-    <br><br><br><br>
-    <i>Welcome, <b>{{ user|title }}</b></i>
+  <div id="users-connected" name="{{ user }}">
+    <h4>Welcome {{ user|title }}</h4>
+    <!--<button id="btnLogout">Sing Out</button>-->
+    <button id="btnLogout" href="{{ url_for('leaveTheRoom', json=json )}}" >Sing Out</button>
 
     <!-- room name -->
-    <p id="room" value="{{ room }}">Connected to: {{ json.room|title }} room!</p>
+    <p id="room" value="{{ room }}">ROOM: {{ room|title }}</p>
 
     <!-- connected user list  -->
-    <b>Users in this room {{ users|length }}</b>
+    <b>Users Connected </b>
       <ul id="list-user-room" class="list-user-room">
           {% for i in users %}
             <li id="{{i}}">{{ i }}</li>
           {% endfor %}
       </ul>
-
-    <!-- Show room list available  -->
-    <h4>Other Rooms</h4>
-      {% for room in rooms %}
-        {% if room|title != json.room|title %}
-          <p class="select-room">{{ room|title }}</p>
-        {% endif %}
-      {% endfor %}
     <!-- display room -->
     <div id="display-message-section">
 
@@ -107,21 +93,13 @@
     </div>
     <!-- connected to that room list  -->
   </div>
-  <input type="hidden" name="{{user}}">
+  <input type="hidden" name="user">
   <div id="message-container">
   </div>
-  <form id="send-container" action="{{ url_for('chat_room')}}">
+  <form id="send-container">
     <input id="username" placeholder="User Name" value="{{ user }}">
     <input type="text" id="message-input">
-    <button type="submit" id="send-button" onclick="{{jsonData}}">Send</button>
+    <button type="submit" id="send-button">Send</button>
   </form>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-  <script>
-    console.log(JSON.parse({{json|safe}}))
-
-    var json = JSON.parse({{json|safe}});
-  </script>
 </body>
 </html>
