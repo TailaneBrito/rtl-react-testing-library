@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Chat App PJ2v1</title>
-  <!--<script defer src="http://localhost:5000/socket.io/socket.io.js"></script>-->
-  <!--<script defer src="script.js"></script>-->
+  <title>Chat ROOM PJ2v1</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -54,7 +52,7 @@
       margin-bottom: 5px;
     }
 
-    #users-connected{
+    #user-connected{
       position: sticky;
       float : right;
       background-color : pink;
@@ -64,19 +62,18 @@
       margin-bottom: 5px;
     }
 
-    #users-connected div{
+    #user-connected div {
       max-width: 1200px;
       }
   </style>
 </head>
 <body>
-  <div id="users-connected" name="{{ user }}" value="{{ user }}">
+  <div id="user-connected">
     <h4 id="user_name_connected">{{ user|title }}</h4>
-    <!--<button id="btnLogout">Sing Out</button>-->
     <button id="btnLogout" href="{{ url_for('leaveTheRoom', json=json )}}" >Sing Out</button>
 
     <!-- room name -->
-    <p id="room" value="{{ room }}">ROOM: {{ room|title }}</p>
+    <p id="room" value="{{ room }}">Connected to: {{ room|title }}</p>
 
     <!-- connected user list  -->
     <b>Users Connected </b>

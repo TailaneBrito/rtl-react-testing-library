@@ -112,7 +112,6 @@ def handle_messages_custom_event(json, methods=['GET', 'POST']):
 def user_section(json, methods=['GET', 'POST']):
     ''' action on dashboard.js connect '''
     print('get-user application.py ' + str(json))
-    print(str(json))
     name = json['user_name']
     room = json['room']
     sid = request.sid

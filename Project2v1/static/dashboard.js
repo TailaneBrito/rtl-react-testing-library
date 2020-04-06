@@ -35,13 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     btnConnect.onclick = function(){
-        get_user_room();
+        get_user();
     }
 
-    function get_user_room(){
+    function get_user(){
         //var room = selectRoomName.value
-        var room = users.room
-        var name = users.name
+        var room = localStorage.getItem('user_room');
+        var name = localStorage.getItem('user_name');
 
         let newRoom = room
 
@@ -54,12 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
             room = newRoom
         }
 
-        json = {user_name : users.name ,
-                room : room
+
+        json = {user_name : localStorage.getItem('user_name') ,
+                room : localStorage.getItem('user_room')
         }
 
+        // go to application.py get-user
         socket.emit('get-user', json)
         console.log(`room ${room}`)
+        console.log(`name ${name}`)
     }
 
     //adds the information from user to the users list
