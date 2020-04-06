@@ -10,7 +10,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
-
   <style>
     body {
       padding: 0;
@@ -71,8 +70,8 @@
   </style>
 </head>
 <body>
-  <div id="users-connected" name="{{ user }}">
-    <h4>Welcome {{ user|title }}</h4>
+  <div id="users-connected" name="{{ user }}" value="{{ user }}">
+    <h4 id="user_name_connected">{{ user|title }}</h4>
     <!--<button id="btnLogout">Sing Out</button>-->
     <button id="btnLogout" href="{{ url_for('leaveTheRoom', json=json )}}" >Sing Out</button>
 
@@ -101,5 +100,6 @@
     <input type="text" id="message-input">
     <button type="submit" id="send-button">Send</button>
   </form>
+
 </body>
 </html>

@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // inputting user_name
     const name = prompt('What is your name?')
-
     messageUserLogged.value = name
     messageUserSession.value  = name
+
+    //setting attibutes to div user_logged
     messageUserSession.setAttribute("value", name)
     messageUserLogged.setAttribute("disabled", true)
 
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // add users to user dict
     users.name = name
     users.room = selectRoomName.value
-    //users.channel = selectRoomName.value
+
 
     socket.on('my response', function(msg){
         console.log(msg)
@@ -38,7 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function get_user_room(){
-        var room = selectRoomName.value
+        //var room = selectRoomName.value
+        var room = users.room
+        var name = users.name
 
         let newRoom = room
 

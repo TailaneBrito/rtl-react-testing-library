@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //go to application.py and grab new-user func
     socket.emit('new-user', name)
-    //appendMessage('You joined')
+    appendMessage('You joined')
 
 
     socket.on('new-user', name => {
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     socket.on('my response', function(msg){
-        console.log(msg)
+        console.log('my response script.js ' + msg)
 
         if( typeof msg.user_name !== 'undefined'){
             $('h3').remove()

@@ -71,7 +71,8 @@
   </style>
 </head>
 <body>
-  <div id="users-connected" name="{{ user }}">
+  <div id="users-connected">
+    <p>Welcome, {{ user }}</p>
     <button id="logout-btn">Sing Out</button>
     <a href="{{ url_for('logout')}}" >Sing Out</a>
     <p class="room">ROOM: {{ room|title }}</p>
