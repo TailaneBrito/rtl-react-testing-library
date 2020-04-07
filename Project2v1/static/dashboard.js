@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // add users to user dict
     users.name = name
+    print(users.name)
     users.room = selectRoomName.value
 
 
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function get_user(){
         //var room = selectRoomName.value
+        localStorage.setItem('user_room') = selectRoomName.value
         var room = localStorage.getItem('user_room');
         var name = localStorage.getItem('user_name');
 
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        json = {user_name : localStorage.getItem('user_name') ,
+        json = {user_name : name ,
                 room : localStorage.getItem('user_room')
         }
 
