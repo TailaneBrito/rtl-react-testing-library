@@ -29,6 +29,7 @@ login.init_app(app)
 sess = Session()
 print(sess)
 
+
 # user dictionary to control the session
 users = {}
 ROOMS = ["lounge", "news", "games", "coding"]
@@ -44,8 +45,7 @@ def load_user(user_name):
 
 @app.route("/")
 def index():
-
-    return render_template("dashboard.html", rooms=ROOMS, room=session["user_room"])
+    return render_template("dashboard.html", rooms=ROOMS)
 
 ''' 
 @app.route("/logado")
@@ -56,11 +56,11 @@ def index():
 
 @app.route('/chat-room',  methods=['POST', 'GET'])
 def chat():
-
+    name = request.form.get('username')
     room = request.form.get('room_name')
-    print(room)
-    name = session['user_name']
-    print(name)
+    print('chat-room  application' + room)
+
+    #session['user_name'] = name
 
     json = {
         "user_name": name,
@@ -94,13 +94,13 @@ def send_chat_message(json, methods=['GET', 'POST']):
             'timestamp': strftime('%b-%d %I:%M%p', localtime()),
             'room': session['user_room']}
 
-    print('received message by send-chat-message ' + str(json))
+    print('send-chat-message application.py ' + str(json))
     socketio.emit('chat-message', json, callback=messageReceived)
 
 
 @socketio.on('my event')
 def handle_messages_custom_event(json, methods=['GET', 'POST']):
-    print('received message by ' + str(json))
+    print('My event application.py ' + str(json))
     # adding function for data pm and am
 
     #socketio.emit('my response', json, callback=messageReceived)
@@ -111,7 +111,7 @@ def handle_messages_custom_event(json, methods=['GET', 'POST']):
 @socketio.on('get-user')
 def user_section(json, methods=['GET', 'POST']):
     ''' action on dashboard.js connect '''
-    print('get-user application ' + str(json))
+    print('get-user application.py ' + str(json))
     name = json['user_name']
     room = json['room']
     sid = request.sid
@@ -175,14 +175,33 @@ def disconnect():
 @app.route('/logout')
 def logout():
     # user_logged_out()
+    user_section(None, None, None)
 
     session['user_name'] = None
     session['user_room'] = None
     session['user_sid'] = None
 
-    print("user logged out")
+    flash("user logged out")
     disconnect()
     return url_for("chat")
+
+
+def user_section(user_name, user_room, user_sid):
+    ''' definies the name for the session user'''
+    session['user_name'] = str(user_name)
+    session['user_room'] = str(user_room)
+    session['user_sid'] = str(user_sid)
+
+    return validate_user_section()
+
+def validate_user_section():
+    ''' Validates if a user is into the session, if not rises up an error '''
+
+    if 'user_id' not in session or session['user_id'] or session['user_name'] == None:
+        return render_template("error.html", message="Create #4 Invalid user name or password, please type one.")
+    else:
+        return url_for("logged", user_name=session['user_name'])
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

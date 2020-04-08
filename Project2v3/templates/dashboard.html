@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Channel Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+
+</head>
+<body>
+
+    <form id="user-login" target="_blank" action="{{ url_for('chat')}}" method="POST" enctype="multipart/form-data">
+         <h1 id="username"></h1>
+         <p>pick up a channel </p>
+         <p>or create a new one </p>
+
+        <select id="room_name" name="room_name">
+            {% for i in rooms %}
+                <option value="{{ i|title }}">{{ i|title }}</option>
+
+            {% endfor %}
+        </select>
+        <input id="hidden_room" type="text" type="hidden" value="{{i}}">
+        <i>to</i>
+        <button type="submit" id="send-button" >Connect</button>
+    </form>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+
+</body>
+</html>

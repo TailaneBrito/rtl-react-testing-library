@@ -1,0 +1,13 @@
+Flask
+Flask-SocketIO
+Flask-Login==0.4.1
+Jinja2==2.10.3
+Werkzeug==0.16.0
+eventlet
+Flask-Session
+requests
+npm install -g browserify
+
+
+
+--trusted-host pypi.org --trusted-host files.pythonhosted.org

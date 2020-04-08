@@ -12,7 +12,6 @@
 <body>
 
     <div id="user_logged"></div>
-    <button id="logout-btn">Sing Out</button>
     <a href="{{ url_for('logout')}}" >Sing Out</a>
     <h1>Please, pick up a channel or create a new one!</h1>
 
@@ -31,5 +30,14 @@
         <i>to</i>
         <button type="submit" id="send-button" >Connect</button>
     </form>
+    <script>
+        var name = document.getElementById('username').value
+        var room = document.getElementById('room_name').value
+        localStorage.setItem('user_name', name)
+        localStorage.setItem('user_room', room)
+
+        console.log(localStorage.getItem(`user_name`))
+        console.log(localStorage.getItem(`user_room`))
+    </script>
 </body>
 </html>

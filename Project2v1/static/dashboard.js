@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // inputting user_name
     const name = prompt('What is your name?')
-
     messageUserLogged.value = name
     messageUserSession.value  = name
+
+    //setting attibutes to div user_logged
     messageUserSession.setAttribute("value", name)
     messageUserLogged.setAttribute("disabled", true)
 
@@ -26,19 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // add users to user dict
     users.name = name
+    print(users.name)
     users.room = selectRoomName.value
-    //users.channel = selectRoomName.value
+
 
     socket.on('my response', function(msg){
         console.log(msg)
     })
 
     btnConnect.onclick = function(){
-        get_user_room();
+        get_user();
     }
 
-    function get_user_room(){
-        var room = selectRoomName.value
+    function get_user(){
+        //var room = selectRoomName.value
+        localStorage.setItem('user_room') = selectRoomName.value
+        var room = localStorage.getItem('user_room');
+        var name = localStorage.getItem('user_name');
 
         let newRoom = room
 
@@ -51,12 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
             room = newRoom
         }
 
-        json = {user_name : users.name ,
-                room : room
+
+        json = {user_name : name ,
+                room : localStorage.getItem('user_room')
         }
 
+        // go to application.py get-user
         socket.emit('get-user', json)
         console.log(`room ${room}`)
+        console.log(`name ${name}`)
     }
 
     //adds the information from user to the users list
