@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const  selectRoomName = document.getElementById('room_name')
     const  btnLogout = document.getElementById('logout-btn')
 
-    // inputting user_name
-     //const user_name = prompt('What is your name?')
 
      var ask = true;
      while (ask){
@@ -24,22 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (user_name !== ''){
             document.querySelector("#username").innerHTML = username;
+            localStorage.setItem('username', user_name);
             ask = false;
             break;
         }
      }
 
-    //document.querySelector("#username").innerHTML = username;
+    messageUserLogged.outerHTML = localStorage.getItem('username');
+    console.log(localStorage.getItem('username'))
     localStorage.setItem('username', name)
 
     //document.querySelector("#username").innerHTML = localStorage.getItem('username');
-    messageUserLogged.value = name
-    messageUserSession.value  = name
+    messageUserLogged.outerHTML = name
+    //messageUserSession.value  = name
 
     //setting a name for h1
-    document.querySelector("#username").innerHTML = localStorage.getItem('username');
-    messageUserSession.setAttribute("value", name)
-    messageUserLogged.setAttribute("disabled", true)
+    //document.querySelector("#username").innerHTML = localStorage.getItem('username');
+    //messageUserSession.setAttribute("value", name)
+    //messageUserLogged.setAttribute("disabled", true)
 
     var users = new Object()
     var users = {}
@@ -50,10 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     users.name = name
     print(users.name)
     users.room = selectRoomName.value
-
-    //add the user to the storage
-    document.querySelector('username').innerHTML = localStorage.getItem('user_name');
-    console.log(localStorage.setItem('user_name'))
 
     socket.on('my response', function(msg){
         console.log(msg)
@@ -100,9 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     //logout from chat
+    /*
     btnLogout.onclick = function(room){
         leaveRoom(room);
     }
+    */
 
     // leave the room
     function leaveRoom(room){
