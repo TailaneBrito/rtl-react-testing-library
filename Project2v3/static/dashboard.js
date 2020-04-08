@@ -1,7 +1,7 @@
 // set starting value of user_name = none
 if (!localStorage.getItem('username')){
-    localStorage.setItem('username', 'None');
-    localStorage.setItem('Status', true);
+    localStorage.setItem('username', 'undefined');
+    localStorage.setItem('status', 'loggedOut')
     }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,29 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
      var ask = true;
-     while (ask){
-        var user_name = prompt('What is your name?')
+        while (ask){
+            var user_name = prompt('What is your name?')
 
-        if (user_name !== ''){
-            document.querySelector("#username").innerHTML = username;
-            localStorage.setItem('username', user_name);
-            ask = false;
-            break;
-        }
-     }
+            if (user_name !== ''){
+                //document.querySelector("#username").innerHTML = username;
+                localStorage.setItem('username', user_name);
+                ask = false;
+                break;
+            }
+         }
 
+    //setting the user name on page
     messageUserLogged.outerHTML = localStorage.getItem('username');
-    console.log(localStorage.getItem('username'))
     localStorage.setItem('username', name)
 
-    //document.querySelector("#username").innerHTML = localStorage.getItem('username');
-    messageUserLogged.outerHTML = name
-    //messageUserSession.value  = name
-
-    //setting a name for h1
-    //document.querySelector("#username").innerHTML = localStorage.getItem('username');
-    //messageUserSession.setAttribute("value", name)
-    //messageUserLogged.setAttribute("disabled", true)
+    //messageUserLogged.outerHTML = name
 
     var users = new Object()
     var users = {}
@@ -59,6 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
         get_user()
     }
 
+    function get_user_input(){
+        var ask = true;
+        while (ask){
+            var user_name = prompt('What is your name?')
+
+            if (user_name !== ''){
+                //document.querySelector("#username").innerHTML = username;
+                localStorage.setItem('username', user_name);
+                ask = false;
+                break;
+            }
+         }
+    }
 
     function get_user(){
         //var room = selectRoomName.value
@@ -95,13 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
         users.sid = json.sid
     })
 
-    //logout from chat
-    /*
-    btnLogout.onclick = function(room){
-        leaveRoom(room);
-    }
-    */
-
     // leave the room
     function leaveRoom(room){
         socket.emit('leave', {'user_name' : name, 'room': room})
@@ -114,9 +113,5 @@ document.addEventListener('DOMContentLoaded', () => {
         //clear message area
         document.querySelectorAll('#message-container').innerHTML = ''
     }
-
-
-
-
 
 });
