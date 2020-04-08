@@ -15,24 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const  selectRoomName = document.getElementById('room_name')
     const  btnLogout = document.getElementById('logout-btn')
 
+    // inputting user_name
+     //const user_name = prompt('What is your name?')
 
      var ask = true;
-        while (ask){
-            var user_name = prompt('What is your name?')
+     while (ask){
+        var user_name = prompt('What is your name?')
 
-            if (user_name !== ''){
-                //document.querySelector("#username").innerHTML = username;
-                localStorage.setItem('username', user_name);
-                ask = false;
-                break;
-            }
-         }
+        if (user_name !== ''){
+            document.querySelector("#username").innerHTML = username;
+            localStorage.setItem('username', user_name);
+            ask = false;
+            break;
+        }
+     }
 
-    //setting the user name on page
-    messageUserLogged.outerHTML = localStorage.getItem('username');
+    messageUserLogged.outerHTML = localStorage.getItem('username')
     localStorage.setItem('username', name)
 
-    //messageUserLogged.outerHTML = name
+    messageUserLogged.value = name
+    messageUserSession.value  = name
+
+    //setting a name for h1
+    document.querySelector("#username").innerHTML = localStorage.getItem('username');
+    messageUserSession.setAttribute("value", name)
+    messageUserLogged.setAttribute("disabled", true)
 
     var users = new Object()
     var users = {}
@@ -43,6 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     users.name = name
     print(users.name)
     users.room = selectRoomName.value
+
+    //add the user to the storage
+    document.querySelector('username').innerHTML = localStorage.getItem('user_name');
+    console.log(localStorage.setItem('user_name'))
 
     socket.on('my response', function(msg){
         console.log(msg)
