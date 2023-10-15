@@ -1,0 +1,12 @@
+1. Create react-testing folder with "yarn create react-app react-testing --template typescript"
+2 use `npm start` (to start the react-app) 
+  use `yarn build` to create the production build
+
+
+3. convention for test naming
+  1 - write a failing test
+  2 - make the test pass 
+  3 - refactor 
+
+4. The ??  operator only recognizes null  and undefined
+`text ? text : '...'`  could be simplified `with text ?? ...`
