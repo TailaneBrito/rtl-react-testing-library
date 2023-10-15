@@ -10,3 +10,46 @@
 
 4. The ??  operator only recognizes null  and undefined
 `text ? text : '...'`  could be simplified `with text ?? ...`
+you can simplify this with just text || '...'  because the ||  operator does 
+recognize an empty string ''  as a "falsy" value.
+
+5. install dev dependency `yarn add -D jest-environment-jsdom-sixteen` and reference it inside `package.json` to `script test`
+  "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+
+6. install dev dependency `yarn add -D ts-jest`
+
+global is not defined error
+from package.json remove
+  all packages related to 
+  "jest-environment-jsdom": "ˆ27.0.6",
+  "jest-environment-jsdom-sixteen": "^2.0.0",
+
+  install only 
+  "jest-environment-jsdom": "26",
+
+7. Enzyme
+
+8. User event library > built on top of fireEvent API.
+  It does mimic the user behavior closer than fireEvent does. 
+
+9. Coverage
+  run `yarn test --coverage --watchAll=false`
+  create a script called coverage in package.json
+
+  get-user is a mock. To test it.
+  API call we will have axios etc. 
+
+  ignore some files if not testable inside package.json
+
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts, tsx, js, jsx}",
+      "!src/index.tsx",
+      "!src/reportWebVitals.ts",
+      "!src/**/*.d.ts"
+    ]
+  }
+  
+
+
+

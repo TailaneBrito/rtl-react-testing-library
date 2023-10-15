@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { sumPositiveNumbers } from "./example";
 
 describe("When the arguments passed are positive numbers", () => {
@@ -16,3 +17,4 @@ describe("When the arguments passed are positive numbers", () => {
         expect(error.message).toBe("One of the numbers are negative")
     })
 })
+export {}
